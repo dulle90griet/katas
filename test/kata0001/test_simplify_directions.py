@@ -40,17 +40,17 @@ def test_removes_multiple_east_west_cancellations():
 def test_simplifies_while_retaining_multiple_moves_in_same_direction():
     test_input = ["NORTH", "EAST", "WEST", "SOUTH", "EAST",
                   "SOUTH", "EAST", "NORTH"]
-    assert simplify_directions == ["EAST", "EAST"]
+    assert simplify_directions(test_input) == ["EAST", "EAST"]
 
     test_input = ["EAST", "NORTH", "SOUTH", "SOUTH", "WEST",
                   "SOUTH", "NORTH", "EAST", "WEST", "SOUTH"]
-    assert simplify_directions == ["SOUTH", "SOUTH"]
+    assert simplify_directions(test_input) == ["SOUTH", "SOUTH"]
 
     test_input = ["WEST", "WEST", "WEST", "NORTH", "NORTH",
-                  "EAST", "SOUTH", "SOUTH", "SOUTH", "WEST"]
-    assert simplify_directions == ["WEST", "WEST", "WEST",
-                                   "SOUTH", "SOUTH"]
+                  "EAST", "SOUTH", "SOUTH", "SOUTH", "WEST", "SOUTH"]
+    assert simplify_directions(test_input) == ["SOUTH", "SOUTH",
+                                   "WEST", "WEST", "WEST"]
     
     test_input = ["NORTH", "NORTH", "EAST", "SOUTH", "EAST",
                   "WEST", "NORTH"]
-    assert simplify_directions == ["NORTH", "NORTH", "EAST"]
+    assert simplify_directions(test_input) == ["NORTH", "NORTH", "EAST"]

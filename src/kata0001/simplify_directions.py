@@ -15,13 +15,13 @@ def simplify_directions(list_of_directions):
     simplified_directions = []
 
     if movement[1] > 0:
-        simplified_directions.append("NORTH")
+        simplified_directions += ["NORTH"] * movement[1]
     elif movement[1] < 0:
-        simplified_directions.append("SOUTH")
-    
+        simplified_directions += ["SOUTH"] * (-1 * movement[1])
+
     if movement[0] > 0:
-        simplified_directions.append("EAST")
+        simplified_directions += ["EAST"] * movement[0]
     elif movement[0] < 0:
-        simplified_directions.append("WEST")
+        simplified_directions += ["WEST"] * (-1 * movement[0])
     
     return simplified_directions
