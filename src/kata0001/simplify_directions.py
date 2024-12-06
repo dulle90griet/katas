@@ -1,2 +1,27 @@
-def simplify_directions():
-    pass
+def simplify_directions(list_of_directions):
+    direction_values = {
+        "NORTH": [0, 1],
+        "SOUTH": [0, -1],
+        "EAST": [1, 0],
+        "WEST": [-1, 0]
+    }
+
+    movement = [0, 0]
+
+    for direction in list_of_directions:
+        movement[0] += direction_values[direction][0]
+        movement[1] += direction_values[direction][1]
+    
+    simplified_directions = []
+
+    if movement[1] > 0:
+        simplified_directions.append("NORTH")
+    elif movement[1] < 0:
+        simplified_directions.append("SOUTH")
+    
+    if movement[0] > 0:
+        simplified_directions.append("EAST")
+    elif movement[0] < 0:
+        simplified_directions.append("WEST")
+    
+    return simplified_directions
