@@ -19,9 +19,13 @@ def test_removes_single_east_west_cancellation():
     assert simplify_directions(test_input) == ["SOUTH"]
 
 
-@pytest.mark.skip
 def test_removes_multiple_north_south_cancellations():
-    pass
+    test_input = ["NORTH", "SOUTH", "WEST", "SOUTH", "NORTH"]
+    assert simplify_directions(test_input) == ["WEST"]
+
+    test_input = ["EAST", "SOUTH", "SOUTH", "NORTH",
+                  "NORTH", "NORTH", "SOUTH"]
+    assert simplify_directions(test_input) == ["EAST"]
 
 
 @pytest.mark.skip
