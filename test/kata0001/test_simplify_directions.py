@@ -4,7 +4,11 @@ from src.kata0001.simplify_directions import simplify_directions
 
 
 def test_removes_single_north_south_cancellation():
-    pass
+    test_input = ["NORTH", "SOUTH", "WEST"]
+    assert simplify_directions(test_input) == "WEST"
+
+    test_input = ["SOUTH", "NORTH", "EAST"]
+    assert simplify_directions(test_input) == "EAST"
 
 @pytest.mark.skip
 def test_removes_single_east_west_cancellation():
