@@ -28,11 +28,29 @@ def test_removes_multiple_north_south_cancellations():
     assert simplify_directions(test_input) == ["EAST"]
 
 
-@pytest.mark.skip
 def test_removes_multiple_east_west_cancellations():
-    pass
+    test_input = ["NORTH", "EAST", "WEST", "WEST", "EAST"]
+    assert simplify_directions(test_input) == ["NORTH"]
+
+    test_input = ["WEST", "EAST", "SOUTH", "EAST",
+                  "WEST", "EAST", "WEST"]
+    assert simplify_directions(test_input) == ["SOUTH"]
 
 
-@pytest.mark.skip
 def test_simplifies_while_retaining_multiple_moves_in_same_direction():
-    pass
+    test_input = ["NORTH", "EAST", "WEST", "SOUTH", "EAST",
+                  "SOUTH", "EAST", "NORTH"]
+    assert simplify_directions == ["EAST", "EAST"]
+
+    test_input = ["EAST", "NORTH", "SOUTH", "SOUTH", "WEST",
+                  "SOUTH", "NORTH", "EAST", "WEST", "SOUTH"]
+    assert simplify_directions == ["SOUTH", "SOUTH"]
+
+    test_input = ["WEST", "WEST", "WEST", "NORTH", "NORTH",
+                  "EAST", "SOUTH", "SOUTH", "SOUTH", "WEST"]
+    assert simplify_directions == ["WEST", "WEST", "WEST",
+                                   "SOUTH", "SOUTH"]
+    
+    test_input = ["NORTH", "NORTH", "EAST", "SOUTH", "EAST",
+                  "WEST", "NORTH"]
+    assert simplify_directions == ["NORTH", "NORTH", "EAST"]
