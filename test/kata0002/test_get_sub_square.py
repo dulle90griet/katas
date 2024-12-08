@@ -87,6 +87,17 @@ def test_returns_None_for_coords_out_of_bounds():
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
         [3, 4, 5, 2, 8, 6, 1, 7, 9]
     ]
-    assert get_sub_square(matrix, 7, 5) is None
-    assert get_sub_square(matrix, 10, 200) is None
-    assert get_sub_square(matrix, 3, 8) is None
+    result = get_sub_square(matrix, 7, 5)
+    assert result == [
+        [5, 6, None],
+        [8, 4, None],
+        [3, 5, None]
+    ]
+    result = get_sub_square(matrix, 10, 200)
+    assert result == [[None] * 3] * 3
+    result = get_sub_square(matrix, 3, 8)
+    assert result == [
+        [2, 8, 6],
+        [None] * 3,
+        [None] * 3
+    ]
