@@ -101,3 +101,9 @@ def test_returns_None_for_coords_out_of_bounds():
         [None] * 3,
         [None] * 3
     ]
+    result = get_sub_square(matrix, 8, 8)
+    assert result == [
+        [9, None, None],
+        [None] * 3,
+        [None] * 3
+    ]
