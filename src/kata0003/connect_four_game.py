@@ -23,10 +23,16 @@ class ConnectFourGame:
 
 
     def play(self, column):
-        for row in range(len(self.__board) - 1, -1, -1):
+        counter_placed = False
+
+        for row in range(6 - 1, -1, -1):
             if self.__board[row][column] is None:
                 self.__board[row][column] = self.get_player()
+                counter_placed = True
                 break
+        
+        if not counter_placed:
+            raise Exception("This column is full")
 
 
     def check_winner(self):

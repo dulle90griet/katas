@@ -123,15 +123,15 @@ class TestPlayMethod:
         assert cur_board[-1][0] is not None
 
 
-    @pytest.mark.skip
     def test_play_raises_exception_if_column_full(self):
         game = ConnectFourGame()
 
         for i in range(len(game.get_board())):
             game.play(5)
+        with pytest.raises(Exception) as err:
+            game.play(5)
 
-        with pytest.raises(Exception) as e:
-            assert str(e.value) == "This column is full"
+        assert str(err.value) == "This column is full"
 
 
     @pytest.mark.skip
