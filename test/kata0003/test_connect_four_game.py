@@ -76,24 +76,78 @@ class TestGetPlayerMethod:
 
 
 class TestPlayMethod:
+    def test_play_returns_nothing(self):
+        game = ConnectFourGame()
+        for i in range(7):
+            assert game.play(i) is None
+
+
     @pytest.mark.skip
     def test_play_drops_counter_into_correct_column(self):
-        pass
+        game = ConnectFourGame()
+
+        for col in range(len(game.get_board()[0])):
+            game.play(col)
+            cur_board = game.get_board()
+            
+            counter_found = False
+            for row in range(len(cur_board)):
+                if cur_board[row][col] is not None:
+                    counter_found = True
+                    break
+            assert counter_found
 
 
     @pytest.mark.skip
     def test_dropped_counter_obeys_gravity(self):
-        pass
+        game = ConnectFourGame()
+
+        game.play(0)
+        cur_board = game.get_board()
+
+        for row in range(len(cur_board) - 1):
+            assert cur_board[row][0] is None
+        assert cur_board[-1][0] is not None
+
+        game.play(3)
+        cur_board = game.get_board()
+
+        for row in range(len(cur_board) - 1):
+            assert cur_board[row][3] is None
+        assert cur_board[-1][3] is not None
+
+        game.play(0)
+        cur_board = game.get_board()
+
+        for row in range(len(cur_board) - 2):
+            assert cur_board[row][0] is None
+        assert cur_board[-2][0] is not None
+        assert cur_board[-1][0] is not None
 
 
     @pytest.mark.skip
     def test_play_raises_exception_if_column_full(self):
-        pass
+        game = ConnectFourGame()
+
+        for i in range(len(game.get_board())):
+            game.play(5)
+
+        with pytest.raises(Exception) as e:
+            assert str(e.value) == "This column is full"
 
 
     @pytest.mark.skip
-    def test_play_returns_nothing(self):
-        pass
+    def test_play_updates_player(self):
+        game = ConnectFourGame()
+
+        game.play(0)
+        assert game.get_player() == "o"
+
+        game.play(1)
+        assert game.get_player() == "x"
+
+        game.play(2)
+        assert game.get_player() == "o"
 
 
 class TestCheckWinner:

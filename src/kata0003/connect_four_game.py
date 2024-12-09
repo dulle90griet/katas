@@ -23,7 +23,7 @@ class ConnectFourGame:
         return self.__cur_player
 
 
-    def play(self):
+    def play(self, column):
         pass
 
 
