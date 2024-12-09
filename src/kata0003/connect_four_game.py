@@ -34,6 +34,8 @@ class ConnectFourGame:
         if not counter_placed:
             raise Exception("This column is full")
 
+        self.__cur_player = "x" if self.get_player() == "o" else "o"
+
 
     def check_winner(self):
         pass

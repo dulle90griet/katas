@@ -134,7 +134,6 @@ class TestPlayMethod:
         assert str(err.value) == "This column is full"
 
 
-    @pytest.mark.skip
     def test_play_updates_player(self):
         game = ConnectFourGame()
 
