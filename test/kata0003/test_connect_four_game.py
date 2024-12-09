@@ -48,6 +48,7 @@ class TestGetBoardMethod:
     
     def test_get_board_returns_new_copy_of_board_state(self):
         game = ConnectFourGame()
+
         board = game.get_board()
         board[5][5] = "x"
 
@@ -56,9 +57,23 @@ class TestGetBoardMethod:
 
 
 class TestGetPlayerMethod:
-    @pytest.mark.skip
     def test_get_player_returns_current_player(self):
-        pass
+        game = ConnectFourGame()
+        assert game.get_player() == "x"
+
+        game._ConnectFourGame__cur_player = "o"
+        assert game.get_player() == "o"
+
+
+    @pytest.mark.skip
+    def test_get_player_returns_new_copy_of_cur_player(self):
+        game = ConnectFourGame()
+
+        player = game.get_player()
+        player = "test"
+
+        assert game._ConnectFourGame__cur_player != player
+        assert game._ConnectFourGame__cur_player is not player
 
 
 class TestPlayMethod:
