@@ -5,8 +5,8 @@ from src.kata0003.connect_four_game import ConnectFourGame
 
 class TestInitialization:
     def test_initialized_with_7_by_6_matrix(self):
-        connect_four_game = ConnectFourGame()
-        assert connect_four_game._ConnectFourGame__grid == [
+        game = ConnectFourGame()
+        assert game._ConnectFourGame__grid == [
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
@@ -14,6 +14,11 @@ class TestInitialization:
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None]
         ]
+
+    
+    def test_initialized_with_player_x(self):
+        game = ConnectFourGame()
+        assert game._ConnectFourGame__cur_player == "x"
 
 
 class TestGetBoardMethod:
