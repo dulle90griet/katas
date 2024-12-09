@@ -56,6 +56,25 @@ class TestGetBoardMethod:
         assert game._ConnectFourGame__board is not board
 
 
+class TestGetPlaceValueMethod:
+    def test_get_place_value_returns_None_if_place_empty(self):
+        game = ConnectFourGame()
+
+        assert game.get_place_value((0, 0)) is None
+        assert game.get_place_value((3, 4)) is None
+        assert game.get_place_value((6, 5)) is None
+
+
+    def test_get_place_value_returns_counter_type_if_present(self):
+        game = ConnectFourGame()
+
+        game._ConnectFourGame__board[4][2] = "o"
+        game._ConnectFourGame__board[5][5] = "x"
+
+        assert game.get_place_value((2, 4)) is "o"
+        assert game.get_place_value((5, 5)) is "x"
+
+
 class TestGetPlayerMethod:
     def test_get_player_returns_current_player(self):
         game = ConnectFourGame()
