@@ -148,22 +148,80 @@ class TestPlayMethod:
 
 
 class TestCheckWinner:
-    @pytest.mark.skip
     def test_check_winner_returns_False_if_no_winner(self):
-        pass
+        game = ConnectFourGame()
+
+        assert game.check_winner() is False
+
+        game.play(2)
+        game.play(3)
+        game.play(4)
+        game.play(4)
+        game.play(2)
+        game.play(5)
+        game.play(2)
+        game.play(2)
+        game.play(5)
+        game.play(5)
+
+        assert game.check_winner() is False
 
     
     @pytest.mark.skip
     def test_check_winner_returns_winner_for_horizontal_4(self):
-        pass
+        game = ConnectFourGame()
+
+        assert game.check_winner() is False
+
+        game.play(1)
+        game.play(1)
+        game.play(2)
+        game.play(0)
+        game.play(3)
+        game.play(2)
+        game.play(4)
+
+        assert game.check_winner() == "x"
 
 
     @pytest.mark.skip
     def test_check_winner_returns_winner_for_vertical_4(self):
-        pass
+        game = ConnectFourGame()
+
+        assert game.check_winner() is False
+
+        game.play(6)
+        game.play(5)
+        game.play(6)
+        game.play(5)
+        game.play(6)
+        game.play(5)
+        game.play(4)
+        game.play(5)
+
+        assert game.check_winner() == "o"
 
 
     @pytest.mark.skip
     def test_check_winner_returns_winner_for_diagonal_4(self):
-        pass
+        game = ConnectFourGame()
+
+        assert game.check_winner() is False
+
+        game.play(2)
+        game.play(3)
+        game.play(4)
+        game.play(4)
+        game.play(2)
+        game.play(5)
+        game.play(2)
+        game.play(2)
+        game.play(5)
+        game.play(5)
+        game.play(6)
+        game.play(6)
+        game.play(6)
+        game.play(6)
+
+        assert game.check_winner() == "o"
 

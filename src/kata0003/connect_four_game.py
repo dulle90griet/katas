@@ -38,4 +38,4 @@ class ConnectFourGame:
 
 
     def check_winner(self):
-        pass
+        return False
