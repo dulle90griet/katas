@@ -33,10 +33,11 @@ class TestGetBoardMethod:
             [None, None, None, None, None, None, None]
         ]
 
-        for row in range(len(game.__ConnectFourGame__board)):
-            for col in range(len(row)):
+        game = ConnectFourGame()
+        for row in range(len(game._ConnectFourGame__grid)):
+            for col in range(len(game._ConnectFourGame__grid[row])):
                 if col == 2 and row >= 2:
-                    game.__ConnectFourGame__board[row][col] = "o"
+                        game._ConnectFourGame__grid[row][col] = "o"
         assert game.get_board() == [
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
