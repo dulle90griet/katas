@@ -21,6 +21,115 @@ class TestInitialization:
         assert game._ConnectFourGame__cur_player == "x"
 
 
+class TestFindConnectedMethod:
+    def test_find_connected_returns_empty_list_if_no_connections(self):
+        game = ConnectFourGame()
+
+        game._ConnectFourGame__board[5][3] = "x"
+
+        assert game._ConnectFourGame__find_connected([(3, 5)]) == []
+
+
+    @pytest.mark.skip
+    def test_find_connected_finds_horizontal_connections(self):
+        game = ConnectFourGame()
+        expected = {
+            "places": [(1, 5), (2, 5), (3, 5)],
+            "next": [(0, 5), (4, 5)]
+        }
+
+        for col in range(1, 4):
+            game._ConnectFourGame__board[5][col] = "o"
+        
+        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
+
+
+    @pytest.mark.skip
+    def test_find_connected_finds_vertical_connections(self):
+        game = ConnectFourGame()
+
+        expected = {
+            "places": [(3, 5), (3, 4), (3, 3)],
+            "next": [None, (3, 2)]
+        }
+        for row in range(5, 2, -1):
+            game._ConnectFourGame__board[row][3] = "x"
+        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
+
+        expected = {
+            "places": [(3, 5), (3, 4), (3, 3), (3, 2)],
+            "next": [None, (3, 1)]
+        }
+        game._ConnectFourGame__board[2][3] = "x"
+        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
+
+    
+    @pytest.mark.skip
+    def test_find_connected_finds_diagonal_connections(self):
+        game = ConnectFourGame()
+        game._ConnectFourGame__board = [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, "o"],
+            [None, "o", None, None, None, "o", "x"],
+            [None, "x", "o", None, "o", "o", "x"],
+            [None, "o", "x", "o", "x", "o", "x"]
+        ]
+
+        expected_1 = {
+            "places": [(1, 3), (2, 4), (3, 5)],
+            "next": [(0, 2), None]
+        }
+        expected_2 = {
+            "places": [(3, 5), (4, 4), (5, 3), (6, 2)],
+            "next": [None, None]
+        }
+        result = game._ConnectFourGame__find_connected([(3, 5)])
+        assert expected_1 in result
+        assert expected_2 in result
+
+        expected_3 = {
+            "places": [(1, 4), (2, 5)],
+            "next": [(0, 3), None]
+        }
+        result = game._ConnectFourGame__find_connected([(1, 4)])
+
+
+    @pytest.mark.skip
+    def test_find_connected_finds_mixed_connections(self):
+        game = ConnectFourGame()
+        game._ConnectFourGame__board = [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None,  "x",  "o",  "x", None],
+            [None, None,  "x",  "x",  "x",  "o", None],
+            [None, None,  "o",  "x",  "x",  "x",  "o"],
+            [ "o", None,  "o",  "o",  "x",  "o",  "o"]
+        ]
+
+        expected_1 = {
+            "places": [(2, 3), (3, 4), (4, 5)],
+            "next": [(1, 2), None]
+        }
+        expected_2 = {
+            "places": [(3, 4), (4, 3), (5, 2)],
+            "next": [None, (6, 1)]
+        }
+        expected_3 = {
+            "places": [(3, 4), (4, 4), (5, 4)],
+            "next": [None, None]
+        }
+        expected_4 = {
+            "places": [(3, 4), (3, 3), (3, 2)],
+            "next": [None, (3, 1)]
+        }
+        result = game._ConnectFourGame__find_connected([(3, 4)])
+        assert expected_1 in result
+        assert expected_2 in result
+        assert expected_3 in result
+        assert expected_4 in result
+
+
 class TestGetBoardMethod:
     def test_get_board_returns_current_board_state(self):
         game = ConnectFourGame()
