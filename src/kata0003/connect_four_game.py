@@ -9,8 +9,7 @@ class ConnectFourGame:
 
         # Fill a 7x7 square grid then drop the last row
         self.__board = fill_square([
-            [None, None, None, None, None, None, None],
-            [], [], [], [], []
+            [None, None, None, None, None, None, None]
         ])
         self.__board.pop()
 
@@ -24,7 +23,10 @@ class ConnectFourGame:
 
 
     def play(self, column):
-        self.__board[5][column] = self.get_player()
+        for row in range(len(self.__board) - 1, -1, -1):
+            if self.__board[row][column] is None:
+                self.__board[row][column] = self.get_player()
+                break
 
 
     def check_winner(self):

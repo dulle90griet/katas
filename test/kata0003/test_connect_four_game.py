@@ -97,7 +97,6 @@ class TestPlayMethod:
             assert counter_found
 
 
-    @pytest.mark.skip
     def test_dropped_counter_obeys_gravity(self):
         game = ConnectFourGame()
 
