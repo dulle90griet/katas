@@ -65,7 +65,6 @@ class TestGetPlayerMethod:
         assert game.get_player() == "o"
 
 
-    @pytest.mark.skip
     def test_get_player_returns_new_copy_of_cur_player(self):
         game = ConnectFourGame()
 

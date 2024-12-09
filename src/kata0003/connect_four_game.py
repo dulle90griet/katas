@@ -20,7 +20,7 @@ class ConnectFourGame:
 
 
     def get_player(self):
-        pass
+        return self.__cur_player
 
 
     def play(self):
