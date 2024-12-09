@@ -6,7 +6,7 @@ from src.kata0003.connect_four_game import ConnectFourGame
 class TestInitialization:
     def test_initialized_with_7_by_6_matrix(self):
         game = ConnectFourGame()
-        assert game._ConnectFourGame__grid == [
+        assert game._ConnectFourGame__board == [
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
@@ -34,10 +34,8 @@ class TestGetBoardMethod:
         ]
 
         game = ConnectFourGame()
-        for row in range(len(game._ConnectFourGame__grid)):
-            for col in range(len(game._ConnectFourGame__grid[row])):
-                if col == 2 and row >= 2:
-                        game._ConnectFourGame__grid[row][col] = "o"
+        for row in range(2, len(game._ConnectFourGame__board)):
+            game._ConnectFourGame__board[row][2] = "o"
         assert game.get_board() == [
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
@@ -47,6 +45,14 @@ class TestGetBoardMethod:
             [None, None, "o", None, None, None, None]
         ]
 
+    
+    def test_get_board_returns_new_copy_of_board_state(self):
+        game = ConnectFourGame()
+        board = game.get_board()
+        board[5][5] = "x"
+
+        assert game._ConnectFourGame__board != board
+        assert game._ConnectFourGame__board is not board
 
 
 class TestGetPlayerMethod:

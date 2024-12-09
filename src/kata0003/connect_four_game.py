@@ -1,19 +1,22 @@
+from copy import deepcopy
+
 from src.kata0003.fill_square import fill_square
+
 
 class ConnectFourGame:
     def __init__(self):
         self.__cur_player = "x"
 
         # Fill a 7x7 square grid then drop the last row
-        self.__grid = fill_square([
+        self.__board = fill_square([
             [None, None, None, None, None, None, None],
             [], [], [], [], []
         ])
-        self.__grid.pop()
+        self.__board.pop()
 
 
     def get_board(self):
-        return self.__grid
+        return deepcopy(self.__board)
 
 
     def get_player(self):
