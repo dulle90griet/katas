@@ -22,9 +22,30 @@ class TestInitialization:
 
 
 class TestGetBoardMethod:
-    @pytest.mark.skip
     def test_get_board_returns_current_board_state(self):
-        pass
+        game = ConnectFourGame()
+        assert game.get_board() == [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None]
+        ]
+
+        for row in range(len(game.__ConnectFourGame__board)):
+            for col in range(len(row)):
+                if col == 2 and row >= 2:
+                    game.__ConnectFourGame__board[row][col] = "o"
+        assert game.get_board() == [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, "o", None, None, None, None],
+            [None, None, "o", None, None, None, None],
+            [None, None, "o", None, None, None, None],
+            [None, None, "o", None, None, None, None]
+        ]
+
 
 
 class TestGetPlayerMethod:
