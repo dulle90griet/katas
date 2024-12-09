@@ -82,7 +82,6 @@ class TestPlayMethod:
             assert game.play(i) is None
 
 
-    @pytest.mark.skip
     def test_play_drops_counter_into_correct_column(self):
         game = ConnectFourGame()
 

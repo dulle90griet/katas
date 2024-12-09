@@ -24,7 +24,7 @@ class ConnectFourGame:
 
 
     def play(self, column):
-        pass
+        self.__board[5][column] = self.get_player()
 
 
     def check_winner(self):
