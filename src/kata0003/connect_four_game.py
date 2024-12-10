@@ -14,22 +14,109 @@ class ConnectFourGame:
         self.__board.pop()
 
 
-    def __find_four__(self, tiles):
-        if len(tiles) > 1:
-            direction = (
-                tiles[-1][0] - tiles[-2][0],
-                tiles[-1][1] - tiles[-2][1]
+    def __find_connected(self, places):
+        if len(places) > 1:
+            vector_of_travel = (
+                places[-1][0] - places[-2][0],
+                places[-1][1] - places[-2][1]
             )
-            next_tile = (
-                tiles[-1][0] + direction[0],
-                tiles[-1][1] + direction[1]
+            next_place = (
+                places[-1][0] + vector_of_travel[0],
+                places[-1][1] + vector_of_travel[1]
             )
             
-            # Check next tile is within bounds
-            if (0 <= next_tile[0] < 7
-                and 0 <= next_tile[1] < 6):
-                pass
+            # Check current tile is within bounds
+            if(0 <= places[-1][0] < 7
+               and 0 <= places[-1][1] < 6):
+                
+                if(self.get_place_value(places[-1]) ==
+                   self.get_place_value(places[-2])):
+                    
+                    return self.__find_connected(places + [next_place])
+                
+                elif self.get_place_value(places[-1]) == None:
+                    return {
+                        "places": places[:-1],
+                        "next": places[-1]
+                    }
+            
+            return {
+                "places": places[:-1],
+                "next": None
+            }
+        
+        elif len(places) == 1:
+            connections = []
 
+            # Vertical check
+            # Down
+            next_place = (places[0][0], places[0][1] + 1)
+            connection_down = self.__find_connected(places + [next_place])
+            # Up
+            next_place = (places[0][0], places[0][1] - 1)
+            connection_up = self.__find_connected(places + [next_place])
+            # Joined
+            complete_vertical = {
+                "places": (connection_down['places'][::-1][:-1]
+                           + connection_up['places']),
+                "next": [connection_down['next'],
+                         connection_up['next']]
+            }
+            if len(complete_vertical['places']) > 2:
+                connections.append(complete_vertical)
+
+            # Horizontal check
+            # Left
+            next_place = (places[0][0] - 1, places[0][1])
+            connection_left = self.__find_connected(places + [next_place])
+            # Right
+            next_place = (places[0][0] + 1, places[0][1])
+            connection_right = self.__find_connected(places + [next_place])
+            # Joined
+            complete_horizontal = {
+                "places": (connection_left['places'][::-1][:-1]
+                            + connection_right['places']),
+                "next": [connection_left['next'],
+                         connection_right['next']]
+            }
+            if len(complete_horizontal['places']) > 2:
+                connections.append(complete_horizontal)
+
+            # Up-right diagonal check
+            # Left + down
+            next_place = (places[0][0] - 1, places[0][1] + 1)
+            connection_left_down = self.__find_connected(places + [next_place])
+            # Right + up
+            next_place = (places[0][0] + 1, places[0][1] - 1)
+            connection_right_up = self.__find_connected(places + [next_place])
+            # Joined
+            complete_up_right = {
+                "places": (connection_left_down['places'][::-1][:-1]
+                           + connection_right_up['places']),
+                "next": [connection_left_down['next'],
+                         connection_right_up['next']]
+            }
+            if len(complete_up_right['places']) > 2:
+                connections.append(complete_up_right)
+
+            # Down-right diagonal check
+            # Left + up
+            next_place = (places[0][0] - 1, places[0][1] - 1)
+            connection_left_up = self.__find_connected(places + [next_place])
+            # Right + down
+            next_place = (places[0][0] + 1, places[0][1] + 1)
+            connection_right_down = self.__find_connected(places + [next_place])
+            # Joined
+            complete_down_right = {
+                "places": (connection_left_up['places'][::-1][:-1]
+                           + connection_right_down['places']),
+                "next": [connection_left_up['next'],
+                         connection_right_down['next']]
+            }
+            if len(complete_down_right['places']) > 2:
+                connections.append(complete_down_right)
+
+            return connections
 
 
         ## RECURSIVE FUNCTION WITH PARAMETER `tiles` (list of coord tuples)
@@ -42,7 +129,7 @@ class ConnectFourGame:
         ##       -- if it matches, recurse with next tile appended to `tiles`
         ##          assign name `end_tile` to result and return
         ##       -- if no match, return tuple of last tile coords
-        ## -- if `tiles` only conttains one item, then:
+        ## -- if `tiles` only contains one item, then:
         ##    check if tile on top row
         ##    -- else, check if tile on bottom row
         ##    check if tile at far left
@@ -95,4 +182,12 @@ class ConnectFourGame:
 
 
     def check_winner(self):
+        # if places_to_check list is empty,
+        # begin by selecting the topmost counter in each column
+        # iterate over places_to_check
+        # run find_connected(); if it returns None, remove the place from the list
+        # if it returns a 3 and a next place,
+        # remove the current place from the list and add that new one
+        # if it returns a 4, return the winner
+
         return False

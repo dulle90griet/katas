@@ -30,7 +30,6 @@ class TestFindConnectedMethod:
         assert game._ConnectFourGame__find_connected([(3, 5)]) == []
 
 
-    @pytest.mark.skip
     def test_find_connected_finds_horizontal_connections(self):
         game = ConnectFourGame()
         expected = {
@@ -44,7 +43,6 @@ class TestFindConnectedMethod:
         assert expected in game._ConnectFourGame__find_connected([(3, 5)])
 
 
-    @pytest.mark.skip
     def test_find_connected_finds_vertical_connections(self):
         game = ConnectFourGame()
 
@@ -64,7 +62,6 @@ class TestFindConnectedMethod:
         assert expected in game._ConnectFourGame__find_connected([(3, 5)])
 
     
-    @pytest.mark.skip
     def test_find_connected_finds_diagonal_connections(self):
         game = ConnectFourGame()
         game._ConnectFourGame__board = [
@@ -95,7 +92,6 @@ class TestFindConnectedMethod:
         result = game._ConnectFourGame__find_connected([(1, 4)])
 
 
-    @pytest.mark.skip
     def test_find_connected_finds_mixed_connections(self):
         game = ConnectFourGame()
         game._ConnectFourGame__board = [
