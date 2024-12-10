@@ -291,7 +291,6 @@ class TestCheckWinner:
         assert game.check_winner() is False
 
     
-    @pytest.mark.skip
     def test_check_winner_returns_winner_for_horizontal_4(self):
         game = ConnectFourGame()
 
@@ -308,7 +307,6 @@ class TestCheckWinner:
         assert game.check_winner() == "x"
 
 
-    @pytest.mark.skip
     def test_check_winner_returns_winner_for_vertical_4(self):
         game = ConnectFourGame()
 

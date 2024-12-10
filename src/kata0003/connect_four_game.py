@@ -6,6 +6,7 @@ from src.kata0003.fill_square import fill_square
 class ConnectFourGame:
     def __init__(self):
         self.__cur_player = "x"
+        self.__places_to_check = []
 
         # Fill a 7x7 square grid then drop the last row
         self.__board = fill_square([
@@ -47,6 +48,9 @@ class ConnectFourGame:
         
         elif len(places) == 1:
             connections = []
+
+            if self.get_place_value(places[0]) is None:
+                return connections
 
             # Vertical check
             # Down
@@ -119,41 +123,6 @@ class ConnectFourGame:
             return connections
 
 
-        ## RECURSIVE FUNCTION WITH PARAMETER `tiles` (list of coord tuples)
-        ## check if `tiles` contains more than one item
-        ## -- if so, subtract the last tile from the previous
-        ##      to get direction of travel
-        ##    add direction to last tile to get next tile
-        ##    check it's within bounds
-        ##    -- if so, check value at next tile matches last tile
-        ##       -- if it matches, recurse with next tile appended to `tiles`
-        ##          assign name `end_tile` to result and return
-        ##       -- if no match, return tuple of last tile coords
-        ## -- if `tiles` only contains one item, then:
-        ##    check if tile on top row
-        ##    -- else, check if tile on bottom row
-        ##    check if tile at far left
-        ##    -- else, check if tile at far right
-        ##    HORIZONTAL CHECK:
-        ##      if not at far right,
-        ##      -- add next tile to the right to `tiles` and recurse
-        ##         assign name `end_right` to result
-        ##      -- if not at far left,
-        ##         add next tile to the left to `tiles` and recurse
-        ##         assign name `end_left` to result
-        ##      subtract `end_left` from `end_right`
-        ##      if the difference is three,
-        ##      -- add the next in-bounds tiles in either direction to the list
-        ##           of possible winning moves for the current tile type, x or o
-        ##    AND SO ON FOR VERTICAL CHECK
-        ##    AND SO ON FOR FIRST DIAGONAL CHECK
-        ##    AND SO ON FOR SECOND DIAGONAL CHECK
-
-        # The above compiles a list of possible winning moves
-        # but might be better with the final action being to check for a difference of four
-
-
-
     def get_board(self):
         return deepcopy(self.__board)
 
@@ -182,12 +151,32 @@ class ConnectFourGame:
 
 
     def check_winner(self):
-        # if places_to_check list is empty,
-        # begin by selecting the topmost counter in each column
-        # iterate over places_to_check
-        # run find_connected(); if it returns None, remove the place from the list
-        # if it returns a 3 and a next place,
-        # remove the current place from the list and add that new one
-        # if it returns a 4, return the winner
+        print(f"==>> self.__places_to_check: {self.__places_to_check}")
+        if not self.__places_to_check:
+            for column in range(7):
+                if self.get_place_value((column, 6 - 1)):
+                    for row in range(6 - 2, -1, -1):
+                        if self.get_place_value((column, row)) is None:
+                            self.__places_to_check.append((column, row + 1))
+                            break
+        print(f"==>> self.__places_to_check: {self.__places_to_check}")
+
+        next_to_check = []
+        
+        for place in self.__places_to_check:
+            connections = self.__find_connected([place])
+            
+            for connection in connections:
+                print(f"==>> connection: {connection}")
+                if len(connection['places']) == 3:
+                    next_to_check += [next for next in connection['next']
+                                      if next is not None]
+                elif len(connection['places']) >= 4:
+                    print(f"==>> self.get_place_value(connection['places'][0]): {self.get_place_value(connection['places'][0])}")
+                    return self.get_place_value(connection['places'][0])
+            
+            self.__places_to_check.remove(place)
+            self.__places_to_check += next_to_check
+        print(f"==>> self.__places_to_check: {self.__places_to_check}")
 
         return False
