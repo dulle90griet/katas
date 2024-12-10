@@ -12,63 +12,55 @@ class TestInitialization:
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None]
+            [None, None, None, None, None, None, None],
         ]
 
-    
     def test_initialized_with_player_x(self):
         game = ConnectFourGame()
         assert game._ConnectFourGame__cur_player == "x"
 
 
 class TestFindConnectedMethod:
-    def test_find_connected_returns_empty_list_if_given_place_is_empty(self):
+    def test_find_connections_returns_empty_list_if_given_place_is_empty(self):
         game = ConnectFourGame()
 
-        assert game._ConnectFourGame__find_connected([(3, 5)]) == []
+        assert game._ConnectFourGame__find_connections([(3, 5)]) == []
 
-
-    def test_find_connected_returns_empty_list_if_no_connections(self):
+    def test_find_connections_returns_empty_list_if_no_connections(self):
         game = ConnectFourGame()
 
         game._ConnectFourGame__board[5][3] = "x"
 
-        assert game._ConnectFourGame__find_connected([(3, 5)]) == []
+        assert game._ConnectFourGame__find_connections([(3, 5)]) == []
 
-    
-    def test_find_connected_finds_horizontal_connections(self):
+    def test_find_connections_finds_horizontal_connections(self):
         game = ConnectFourGame()
         expected = {
             "places": [(1, 5), (2, 5), (3, 5)],
-            "next": [(0, 5), (4, 5)]
+            "next": [(0, 5), (4, 5)],
         }
 
         for col in range(1, 4):
             game._ConnectFourGame__board[5][col] = "o"
-        
-        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
 
+        assert expected in game._ConnectFourGame__find_connections([(3, 5)])
 
-    def test_find_connected_finds_vertical_connections(self):
+    def test_find_connections_finds_vertical_connections(self):
         game = ConnectFourGame()
 
-        expected = {
-            "places": [(3, 5), (3, 4), (3, 3)],
-            "next": [None, (3, 2)]
-        }
+        expected = {"places": [(3, 5), (3, 4), (3, 3)], "next": [None, (3, 2)]}
         for row in range(5, 2, -1):
             game._ConnectFourGame__board[row][3] = "x"
-        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
+        assert expected in game._ConnectFourGame__find_connections([(3, 5)])
 
         expected = {
             "places": [(3, 5), (3, 4), (3, 3), (3, 2)],
-            "next": [None, (3, 1)]
+            "next": [None, (3, 1)],
         }
         game._ConnectFourGame__board[2][3] = "x"
-        assert expected in game._ConnectFourGame__find_connected([(3, 5)])
+        assert expected in game._ConnectFourGame__find_connections([(3, 5)])
 
-    
-    def test_find_connected_finds_diagonal_connections(self):
+    def test_find_connections_finds_diagonal_connections(self):
         game = ConnectFourGame()
         game._ConnectFourGame__board = [
             [None, None, None, None, None, None, None],
@@ -76,56 +68,49 @@ class TestFindConnectedMethod:
             [None, None, None, None, None, None, "o"],
             [None, "o", None, None, None, "o", "x"],
             [None, "x", "o", None, "o", "o", "x"],
-            [None, "o", "x", "o", "x", "o", "x"]
+            [None, "o", "x", "o", "x", "o", "x"],
         ]
 
         expected_1 = {
             "places": [(1, 3), (2, 4), (3, 5)],
-            "next": [(0, 2), None]
+            "next": [(0, 2), None],
         }
         expected_2 = {
             "places": [(3, 5), (4, 4), (5, 3), (6, 2)],
-            "next": [None, None]
+            "next": [None, None],
         }
-        result = game._ConnectFourGame__find_connected([(3, 5)])
+        result = game._ConnectFourGame__find_connections([(3, 5)])
         assert expected_1 in result
         assert expected_2 in result
 
-        expected_3 = {
-            "places": [(1, 4), (2, 5)],
-            "next": [(0, 3), None]
-        }
-        result = game._ConnectFourGame__find_connected([(1, 4)])
+        expected_3 = {"places": [(1, 4), (2, 5)], "next": [(0, 3), None]}
+        result = game._ConnectFourGame__find_connections([(1, 4)])
 
-
-    def test_find_connected_finds_mixed_connections(self):
+    def test_find_connections_finds_mixed_connections(self):
         game = ConnectFourGame()
         game._ConnectFourGame__board = [
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
-            [None, None, None,  "x",  "o",  "x", None],
-            [None, None,  "x",  "x",  "x",  "o", None],
-            [None, None,  "o",  "x",  "x",  "x",  "o"],
-            [ "o", None,  "o",  "o",  "x",  "o",  "o"]
+            [None, None, None, "x", "o", "x", None],
+            [None, None, "x", "x", "x", "o", None],
+            [None, None, "o", "x", "x", "x", "o"],
+            ["o", None, "o", "o", "x", "o", "o"],
         ]
 
         expected_1 = {
             "places": [(2, 3), (3, 4), (4, 5)],
-            "next": [(1, 2), None]
+            "next": [(1, 2), None],
         }
         expected_2 = {
             "places": [(3, 4), (4, 3), (5, 2)],
-            "next": [None, (6, 1)]
+            "next": [None, (6, 1)],
         }
-        expected_3 = {
-            "places": [(3, 4), (4, 4), (5, 4)],
-            "next": [None, None]
-        }
+        expected_3 = {"places": [(3, 4), (4, 4), (5, 4)], "next": [None, None]}
         expected_4 = {
             "places": [(3, 4), (3, 3), (3, 2)],
-            "next": [None, (3, 1)]
+            "next": [None, (3, 1)],
         }
-        result = game._ConnectFourGame__find_connected([(3, 4)])
+        result = game._ConnectFourGame__find_connections([(3, 4)])
         assert expected_1 in result
         assert expected_2 in result
         assert expected_3 in result
@@ -141,7 +126,7 @@ class TestGetBoardMethod:
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None]
+            [None, None, None, None, None, None, None],
         ]
 
         game = ConnectFourGame()
@@ -153,10 +138,9 @@ class TestGetBoardMethod:
             [None, None, "o", None, None, None, None],
             [None, None, "o", None, None, None, None],
             [None, None, "o", None, None, None, None],
-            [None, None, "o", None, None, None, None]
+            [None, None, "o", None, None, None, None],
         ]
 
-    
     def test_get_board_returns_new_copy_of_board_state(self):
         game = ConnectFourGame()
 
@@ -174,7 +158,6 @@ class TestGetPlaceValueMethod:
         assert game.get_place_value((0, 0)) is None
         assert game.get_place_value((3, 4)) is None
         assert game.get_place_value((6, 5)) is None
-
 
     def test_get_place_value_returns_counter_type_if_present(self):
         game = ConnectFourGame()
@@ -194,7 +177,6 @@ class TestGetPlayerMethod:
         game._ConnectFourGame__cur_player = "o"
         assert game.get_player() == "o"
 
-
     def test_get_player_returns_new_copy_of_cur_player(self):
         game = ConnectFourGame()
 
@@ -211,21 +193,19 @@ class TestPlayMethod:
         for i in range(7):
             assert game.play(i) is None
 
-
     def test_play_drops_counter_into_correct_column(self):
         game = ConnectFourGame()
 
         for col in range(len(game.get_board()[0])):
             game.play(col)
             cur_board = game.get_board()
-            
+
             counter_found = False
             for row in range(len(cur_board)):
                 if cur_board[row][col] is not None:
                     counter_found = True
                     break
             assert counter_found
-
 
     def test_dropped_counter_obeys_gravity(self):
         game = ConnectFourGame()
@@ -252,7 +232,6 @@ class TestPlayMethod:
         assert cur_board[-2][0] is not None
         assert cur_board[-1][0] is not None
 
-
     def test_play_raises_exception_if_column_full(self):
         game = ConnectFourGame()
 
@@ -262,7 +241,6 @@ class TestPlayMethod:
             game.play(5)
 
         assert str(err.value) == "This column is full"
-
 
     def test_play_updates_player(self):
         game = ConnectFourGame()
@@ -283,80 +261,76 @@ class TestCheckWinner:
 
         assert game.check_winner() is False
 
-        game.play(2) #x
-        game.play(3) #o
-        game.play(4) #x
-        game.play(4) #o
-        game.play(2) #x
-        game.play(5) #o
-        game.play(2) #x
-        game.play(2) #o
-        game.play(5) #x
-        game.play(5) #o
+        game.play(2)  # x
+        game.play(3)  # o
+        game.play(4)  # x
+        game.play(4)  # o
+        game.play(2)  # x
+        game.play(5)  # o
+        game.play(2)  # x
+        game.play(2)  # o
+        game.play(5)  # x
+        game.play(5)  # o
 
         assert game.check_winner() is False
 
-    
     def test_check_winner_returns_winner_for_horizontal_4(self):
         game = ConnectFourGame()
 
         assert game.check_winner() is False
 
-        game.play(1) #x
-        game.play(1) #o
-        game.play(2) #x
-        game.play(0) #o
-        game.play(3) #x
-        game.play(2) #o
-        game.play(4) #x
+        game.play(1)  # x
+        game.play(1)  # o
+        game.play(2)  # x
+        game.play(0)  # o
+        game.play(3)  # x
+        game.play(2)  # o
+        game.play(4)  # x
 
         assert game.check_winner() == "x"
-
 
     def test_check_winner_returns_winner_for_vertical_4(self):
         game = ConnectFourGame()
         assert game.check_winner() is False
-        game.play(6) #x
-        game.play(5) #o
-        game.play(6) #x
-        game.play(5) #o
-        game.play(6) #x
-        game.play(5) #o
-        game.play(4) #x
-        game.play(5) #o
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(4)  # x
+        game.play(5)  # o
         assert game.check_winner() == "o"
 
         game = ConnectFourGame()
         assert game.check_winner() is False
-        game.play(6) #x
-        game.play(5) #o
-        game.play(6) #x
-        game.play(5) #o
-        game.play(6) #x
-        game.play(5) #o
-        game.play(6) #x
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(6)  # x
+        game.play(5)  # o
+        game.play(6)  # x
         assert game.check_winner() == "x"
-
 
     def test_check_winner_returns_winner_for_diagonal_4(self):
         game = ConnectFourGame()
 
         assert game.check_winner() is False
 
-        game.play(2) #x
-        game.play(3) #o
-        game.play(4) #x
-        game.play(4) #o
-        game.play(2) #x
-        game.play(5) #o
-        game.play(2) #x
-        game.play(2) #o
-        game.play(5) #x
-        game.play(5) #o
-        game.play(6) #x
-        game.play(6) #o
-        game.play(6) #x
-        game.play(6) #o
+        game.play(2)  # x
+        game.play(3)  # o
+        game.play(4)  # x
+        game.play(4)  # o
+        game.play(2)  # x
+        game.play(5)  # o
+        game.play(2)  # x
+        game.play(2)  # o
+        game.play(5)  # x
+        game.play(5)  # o
+        game.play(6)  # x
+        game.play(6)  # o
+        game.play(6)  # x
+        game.play(6)  # o
 
         assert game.check_winner() == "o"
-

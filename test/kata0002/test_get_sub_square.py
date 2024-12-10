@@ -13,14 +13,10 @@ def test_returns_sub_square_with_zero_coords():
         [7, 1, 3, 9, 2, 4, 8, 5, 6],
         [9, 6, 1, 5, 3, 7, 2, 8, 4],
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     result = get_sub_square(matrix, 0, 0)
-    assert result == [
-        [5, 3, 4],
-        [6, 7, 2],
-        [1, 9, 8]
-    ]
+    assert result == [[5, 3, 4], [6, 7, 2], [1, 9, 8]]
 
 
 def test_returns_sub_square_with_identical_non_zero_coords():
@@ -33,20 +29,12 @@ def test_returns_sub_square_with_identical_non_zero_coords():
         [7, 1, 3, 9, 2, 4, 8, 5, 6],
         [9, 6, 1, 5, 3, 7, 2, 8, 4],
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     result = get_sub_square(matrix, 3, 3)
-    assert result == [
-        [7, 4, 1],
-        [8, 5, 3],
-        [9, 2, 4]
-    ]
+    assert result == [[7, 4, 1], [8, 5, 3], [9, 2, 4]]
     result = get_sub_square(matrix, 6, 6)
-    assert result == [
-        [2, 8, 4],
-        [6, 3, 5],
-        [1, 7, 9]
-    ]
+    assert result == [[2, 8, 4], [6, 3, 5], [1, 7, 9]]
 
 
 def test_returns_sub_square_with_non_identical_non_zero_coords():
@@ -59,20 +47,12 @@ def test_returns_sub_square_with_non_identical_non_zero_coords():
         [7, 1, 3, 9, 2, 4, 8, 5, 6],
         [9, 6, 1, 5, 3, 7, 2, 8, 4],
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     result = get_sub_square(matrix, 3, 5)
-    assert result == [
-        [9, 2, 4],
-        [5, 3, 7],
-        [4, 1, 9]
-    ]
+    assert result == [[9, 2, 4], [5, 3, 7], [4, 1, 9]]
     result = get_sub_square(matrix, 0, 6)
-    assert result == [
-        [9, 6, 1],
-        [2, 8, 7],
-        [3, 4, 5]
-    ]
+    assert result == [[9, 6, 1], [2, 8, 7], [3, 4, 5]]
 
 
 def test_returns_None_for_coords_out_of_bounds():
@@ -85,25 +65,13 @@ def test_returns_None_for_coords_out_of_bounds():
         [7, 1, 3, 9, 2, 4, 8, 5, 6],
         [9, 6, 1, 5, 3, 7, 2, 8, 4],
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
+        [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ]
     result = get_sub_square(matrix, 7, 5)
-    assert result == [
-        [5, 6, None],
-        [8, 4, None],
-        [3, 5, None]
-    ]
+    assert result == [[5, 6, None], [8, 4, None], [3, 5, None]]
     result = get_sub_square(matrix, 10, 200)
     assert result == [[None] * 3] * 3
     result = get_sub_square(matrix, 3, 8)
-    assert result == [
-        [2, 8, 6],
-        [None] * 3,
-        [None] * 3
-    ]
+    assert result == [[2, 8, 6], [None] * 3, [None] * 3]
     result = get_sub_square(matrix, 8, 8)
-    assert result == [
-        [9, None, None],
-        [None] * 3,
-        [None] * 3
-    ]
+    assert result == [[9, None, None], [None] * 3, [None] * 3]
