@@ -7,6 +7,7 @@ class ConnectFourGame:
     def __init__(self):
         self.__cur_player = "x"
         self.__places_to_check = []
+        self.__already_checked = []
 
         # Fill a 7x7 square grid then drop the last row
         self.__board = fill_square([[None, None, None, None, None, None, None]])
@@ -149,11 +150,16 @@ class ConnectFourGame:
         self.__cur_player = "x" if self.get_player() == "o" else "o"
 
     def check_winner(self):
+        # If places_to_check is empty, populate it with the topmost counter
+        # in each column
         if not self.__places_to_check:
             for column in range(7):
                 if self.get_place_value((column, 6 - 1)):
                     for row in range(6 - 2, -1, -1):
-                        if self.get_place_value((column, row)) is None:
+                        if (
+                            self.get_place_value((column, row)) is None
+                            and (column, row + 1) not in self.__already_checked
+                        ):
                             self.__places_to_check.append((column, row + 1))
                             break
 
@@ -170,6 +176,7 @@ class ConnectFourGame:
                 elif len(connection["places"]) >= 4:
                     return self.get_place_value(connection["places"][0])
 
+        self.__already_checked += self.__places_to_check
         self.__places_to_check = next_to_check
 
         return False

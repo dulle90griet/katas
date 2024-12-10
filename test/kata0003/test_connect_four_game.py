@@ -319,18 +319,31 @@ class TestCheckWinner:
         assert game.check_winner() is False
 
         game.play(2)  # x
+        assert game.check_winner() is False
         game.play(3)  # o
+        assert game.check_winner() is False
         game.play(4)  # x
+        assert game.check_winner() is False
         game.play(4)  # o
+        assert game.check_winner() is False
         game.play(2)  # x
+        assert game.check_winner() is False
         game.play(5)  # o
+        assert game.check_winner() is False
         game.play(2)  # x
+        assert game.check_winner() is False
         game.play(2)  # o
+        assert game.check_winner() is False
         game.play(5)  # x
+        assert game.check_winner() is False
         game.play(5)  # o
+        assert game.check_winner() is False
         game.play(6)  # x
+        assert game.check_winner() is False
         game.play(6)  # o
+        assert game.check_winner() is False
         game.play(6)  # x
+        assert game.check_winner() is False
         game.play(6)  # o
 
         assert game.check_winner() == "o"
