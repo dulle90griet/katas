@@ -22,6 +22,12 @@ class TestInitialization:
 
 
 class TestFindConnectedMethod:
+    def test_find_connected_returns_empty_list_if_given_place_is_empty(self):
+        game = ConnectFourGame()
+
+        assert game._ConnectFourGame__find_connected([(3, 5)]) == []
+
+
     def test_find_connected_returns_empty_list_if_no_connections(self):
         game = ConnectFourGame()
 
@@ -29,7 +35,7 @@ class TestFindConnectedMethod:
 
         assert game._ConnectFourGame__find_connected([(3, 5)]) == []
 
-
+    
     def test_find_connected_finds_horizontal_connections(self):
         game = ConnectFourGame()
         expected = {
@@ -277,16 +283,16 @@ class TestCheckWinner:
 
         assert game.check_winner() is False
 
-        game.play(2)
-        game.play(3)
-        game.play(4)
-        game.play(4)
-        game.play(2)
-        game.play(5)
-        game.play(2)
-        game.play(2)
-        game.play(5)
-        game.play(5)
+        game.play(2) #x
+        game.play(3) #o
+        game.play(4) #x
+        game.play(4) #o
+        game.play(2) #x
+        game.play(5) #o
+        game.play(2) #x
+        game.play(2) #o
+        game.play(5) #x
+        game.play(5) #o
 
         assert game.check_winner() is False
 
@@ -296,54 +302,61 @@ class TestCheckWinner:
 
         assert game.check_winner() is False
 
-        game.play(1)
-        game.play(1)
-        game.play(2)
-        game.play(0)
-        game.play(3)
-        game.play(2)
-        game.play(4)
+        game.play(1) #x
+        game.play(1) #o
+        game.play(2) #x
+        game.play(0) #o
+        game.play(3) #x
+        game.play(2) #o
+        game.play(4) #x
 
         assert game.check_winner() == "x"
 
 
     def test_check_winner_returns_winner_for_vertical_4(self):
         game = ConnectFourGame()
-
         assert game.check_winner() is False
-
-        game.play(6)
-        game.play(5)
-        game.play(6)
-        game.play(5)
-        game.play(6)
-        game.play(5)
-        game.play(4)
-        game.play(5)
-
+        game.play(6) #x
+        game.play(5) #o
+        game.play(6) #x
+        game.play(5) #o
+        game.play(6) #x
+        game.play(5) #o
+        game.play(4) #x
+        game.play(5) #o
         assert game.check_winner() == "o"
 
+        game = ConnectFourGame()
+        assert game.check_winner() is False
+        game.play(6) #x
+        game.play(5) #o
+        game.play(6) #x
+        game.play(5) #o
+        game.play(6) #x
+        game.play(5) #o
+        game.play(6) #x
+        assert game.check_winner() == "x"
 
-    @pytest.mark.skip
+
     def test_check_winner_returns_winner_for_diagonal_4(self):
         game = ConnectFourGame()
 
         assert game.check_winner() is False
 
-        game.play(2)
-        game.play(3)
-        game.play(4)
-        game.play(4)
-        game.play(2)
-        game.play(5)
-        game.play(2)
-        game.play(2)
-        game.play(5)
-        game.play(5)
-        game.play(6)
-        game.play(6)
-        game.play(6)
-        game.play(6)
+        game.play(2) #x
+        game.play(3) #o
+        game.play(4) #x
+        game.play(4) #o
+        game.play(2) #x
+        game.play(5) #o
+        game.play(2) #x
+        game.play(2) #o
+        game.play(5) #x
+        game.play(5) #o
+        game.play(6) #x
+        game.play(6) #o
+        game.play(6) #x
+        game.play(6) #o
 
         assert game.check_winner() == "o"
 

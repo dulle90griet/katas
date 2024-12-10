@@ -151,7 +151,6 @@ class ConnectFourGame:
 
 
     def check_winner(self):
-        print(f"==>> self.__places_to_check: {self.__places_to_check}")
         if not self.__places_to_check:
             for column in range(7):
                 if self.get_place_value((column, 6 - 1)):
@@ -159,7 +158,6 @@ class ConnectFourGame:
                         if self.get_place_value((column, row)) is None:
                             self.__places_to_check.append((column, row + 1))
                             break
-        print(f"==>> self.__places_to_check: {self.__places_to_check}")
 
         next_to_check = []
         
@@ -167,16 +165,12 @@ class ConnectFourGame:
             connections = self.__find_connected([place])
             
             for connection in connections:
-                print(f"==>> connection: {connection}")
                 if len(connection['places']) == 3:
                     next_to_check += [next for next in connection['next']
                                       if next is not None]
                 elif len(connection['places']) >= 4:
-                    print(f"==>> self.get_place_value(connection['places'][0]): {self.get_place_value(connection['places'][0])}")
                     return self.get_place_value(connection['places'][0])
             
-            self.__places_to_check.remove(place)
-            self.__places_to_check += next_to_check
-        print(f"==>> self.__places_to_check: {self.__places_to_check}")
+        self.__places_to_check = next_to_check
 
         return False
