@@ -9,4 +9,8 @@
 #!/usr/bin/bash
 
 linecount=$(wc -l "$1" | awk '{print $1}')
-echo $linecount
+
+for i in $(seq $linecount)
+do
+  echo "$( awk "NR==$i{print;exit}" $1 )\n"
+done
