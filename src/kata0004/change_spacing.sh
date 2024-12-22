@@ -6,5 +6,7 @@
 
 # Finally, write a script to remove all blank lines from the target file, single-spacing it.
 
-linecount=`wc -l $1`
+#!/usr/bin/bash
+
+linecount=$(wc -l "$1" | awk '{print $1}')
 echo $linecount
