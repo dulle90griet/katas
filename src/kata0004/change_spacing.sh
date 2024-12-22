@@ -20,7 +20,26 @@ fi
 
 linecount=$(wc -l "$1" | awk '{print $1}')
 
+if [[ $2 == "--triple" ]]; then
+  breaks="\n\n\n"
+else
+  breaks="\n\n"
+fi
+
+# if [[ $2 == "--triple" ]]; then
+#   reps=3
+# else
+#   reps=2
+# fi
+
+# breaks=$( awk 'NR==1{for(n=1;n<='"$(( reps - 1 ))"';n++)print $0}' <<< "\n" )
+
 for i in $(seq $linecount)
 do
-  printf "$( awk "NR==$i{print;exit}" $1 )\n\n"
+  out="$( awk "NR==$i{print;exit}" $1 )"
+  if (( $i < $linecount )); then
+    printf "$out$breaks"
+  else
+    printf "$out\n"
+  fi
 done
