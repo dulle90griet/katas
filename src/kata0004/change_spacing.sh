@@ -6,11 +6,21 @@
 
 # Finally, write a script to remove all blank lines from the target file, single-spacing it.
 
-#!/usr/bin/bash
+#!/usr/bin/env bash
+
+if [[ -z "$1" ]]; then
+  printf "Input error: One argument expected (filename)\n"
+  exit
+fi
+
+if ! [ -s "$1" ]; then
+  printf "Error: File doesn't exist or is empty\n"
+  exit
+fi
 
 linecount=$(wc -l "$1" | awk '{print $1}')
 
 for i in $(seq $linecount)
 do
-  echo "$( awk "NR==$i{print;exit}" $1 )\n"
+  printf "$( awk "NR==$i{print;exit}" $1 )\n\n"
 done
