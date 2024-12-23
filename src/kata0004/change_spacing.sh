@@ -13,14 +13,13 @@ if [[ -z "$1" ]]; then
   exit
 fi
 
-args=("" "$@")
-echo "$args"
+args=("$@")
 file_set=false
 spacing_set=false
 maintain_blanks=false
 skip_next=false
 
-for i in $( seq $# )
+for i in $( seq 0 $(( $# - 1 )) )
 do
   if [[ "$skip_next" == true ]]; then
     skip_next=false
