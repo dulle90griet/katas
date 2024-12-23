@@ -21,18 +21,12 @@ fi
 linecount=$(wc -l "$1" | awk '{print $1}')
 
 if [[ $2 == "--triple" ]]; then
-  breaks="\n\n\n"
+  reps=3
 else
-  breaks="\n\n"
+  reps=2
 fi
 
-# if [[ $2 == "--triple" ]]; then
-#   reps=3
-# else
-#   reps=2
-# fi
-
-# breaks=$( awk 'NR==1{for(n=1;n<='"$(( reps - 1 ))"';n++)print $0}' <<< "\n" )
+breaks=$( awk 'NR==1{for(n=1;n<='"$reps"';n++)printf $0}' <<< "\n" )
 
 for i in $(seq $linecount)
 do
