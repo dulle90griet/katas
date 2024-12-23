@@ -26,7 +26,7 @@ else
   reps=2
 fi
 
-breaks=$( awk 'NR==1{for(n=1;n<='"$reps"';n++)printf $0}' <<< "\n" )
+breaks=$( awk "NR==1{for(n=1;n<=$reps;n++)printf \$0}" <<< "\n" )
 
 for i in $(seq $linecount)
 do
