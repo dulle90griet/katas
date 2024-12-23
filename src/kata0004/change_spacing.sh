@@ -38,6 +38,8 @@ do
 
       file_set=true
     fi
+  elif [[ "${args[$i]}" == "--maintain-blanks" ]] || [[ "${args[$i]}" == "-m" ]]; then
+    maintain_blanks=true
   elif [[ "$spacing_set" != true ]]; then
     case "${args[$i]}" in
 
@@ -74,8 +76,6 @@ do
         ;;
 
     esac
-  elif [[ "${args[$i]}" == "--maintain-blanks" ]] || [[ "${args[$i]}" == "-m" ]]; then
-    maintain_blanks=true
   fi
 done
 
@@ -88,7 +88,7 @@ do
   break_string="${break_string}\n"
 done
 
-# replace newlines with escaped '\n' and strip trailing '\n' from file end
+# replace newlines with escaped '\n' and strip trailing '\n's from file end
 file_str=$( sed -z 's/\n/\\n/g; s/..$//;' "$filename" )
 
 # remove blank lines
