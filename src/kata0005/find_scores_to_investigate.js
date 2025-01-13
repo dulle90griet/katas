@@ -14,7 +14,7 @@
 }
 ```
 
-The teacher of class 256 believes that some students who received noticeably higher scores on take-home assignments than on in-person exams and quizzes may have used ChatGPT (or an equivalent generative AI service) to cheat.
+The teacher of class 256 has noticed that some students received noticeably higher scores on take-home assignments than on in-person exams and quizzes. They want to investigate whether those students might have used ChatGPT (or an equivalent generative AI service) to cheat, or, conversely, whether they are genuinely better-suited to long-form take-home work.
 
 To help identify students whose homework may warrant further inspection, use MongoDB aggregation pipelines to find all students in class 256 who, by the standards of class 256, have at least one above-average homework score, and who also have at least one homework score at least 25% higher than the average of their exam and quiz scores for the class.
 */
@@ -62,7 +62,7 @@ db.grades.aggregate([
   {
     $group: {
       _id: "$student_id",
-      avg_exam_quiz: { $avg: "$scores.score"}
+      avg_exam_quiz: { $avg: "$scores.score" }
     }
   },
   {
@@ -71,5 +71,28 @@ db.grades.aggregate([
 ])
 
 // Select students who have at least one homework score for class 256 which is above the average
+
+db.grades.aggregate([
+  {
+    $match: { class_id: 256 }
+  },
+  {
+    $project: {
+      _id: 1,
+      student_id: 1,
+      homework_scores: {
+        $filter: {
+          input: "$scores",
+          as: "item",
+          cond: { $eq: ["$$item.type", "homework"] }
+        }
+      },
+      class_id: 1
+    }
+  },
+  {
+    $match: { "homework_scores.score": { $gt: avg_homework }}
+  }
+])
 
 // Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average
