@@ -18,3 +18,11 @@ The teacher of class 256 believes that some students who received noticeably hig
 
 To help identify students whose homework may warrant further inspection, use MongoDB aggregation pipelines to find all students in class 256 who, by the standards of class 256, have at least one above-average homework score, and who also have at least one homework score at least 25% higher than the average of their exam and quiz scores for the class.
 */
+
+// Get average homework score for class 256 and assign it to a variable name
+
+// For each student, calculate the average of their exam and quiz scores for class 256
+
+// Select students who have at least one homework score for class 256 which is above the average
+
+// Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average
