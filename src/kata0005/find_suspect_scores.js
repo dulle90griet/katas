@@ -45,6 +45,31 @@ console.log(`The average homework score for class 256 is ${avg_homework}.`)
 
 // For each student, calculate the average of their exam and quiz scores for class 256
 
+db.grades.aggregate([
+  {
+    $match: { class_id: 256 }
+  },
+  {
+    $unwind: "$scores"
+  },
+  {
+    $match: {
+      "scores.type": {
+        $in: ["exam", "quiz"]
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$student_id",
+      avg_exam_quiz: { $avg: "$scores.score"}
+    }
+  },
+  {
+    $out: "grades_in_person_averaged"
+  }
+])
+
 // Select students who have at least one homework score for class 256 which is above the average
 
 // Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average
