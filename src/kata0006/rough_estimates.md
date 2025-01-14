@@ -46,3 +46,10 @@ Available here: http://codekata.com/kata/kata03-how-big-how-fast/
 
 (Reasoning: Assume 350 words per page average. 12 * 3.5 is 42. 1,200 * 350 is 420,000. In UTF-16, 840,000 bytes. 56k bits/second is 7k bytes/second. 840/7 gives 120 seconds.)
 
+> My binary search algorithm takes about 4.5mS to search a 10,000 entry array, and about 6mS to search 100,000 elements. How long would I expect it to take to search 10,000,000 elements (assuming I have sufficient memory to prevent paging).
+
+- 171 milliseconds
+
+(Reasoning: from 10,000 to 100,000 is 90,000 elements; to 1,000,000, another 900,000; to 10,000,000, another 9,000,000. The first took an extra 1.5ms, so to get to 10,000,000 should take a further 15 + 150 ms.)
+
+
