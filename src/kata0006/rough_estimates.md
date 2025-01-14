@@ -1,5 +1,7 @@
 # CodeKata.com Kata 03: How Big? How Fast?
 
+Available here: http://codekata.com/kata/kata03-how-big-how-fast/
+
 > Rough estimation is a useful talent to possess. As you’re coding away, you may suddenly need to work out approximately how big a data structure will be, or how fast some loop will run. The faster you can do this, the less the coding flow will be disturbed.
 > 
 > So this is a simple kata: a series of questions, each asking for a rough answer. Try to work each out in your head.
@@ -24,7 +26,7 @@
 
 > My town has approximately 20,000 residences. How much space is required to store the names, addresses, and a phone number for all of these (if we store them as characters)?
 
-- 4,000,000 bytes, i.e. a bit less than 4MB.
+- 4,000,000 bytes, i.e. a bit less than 4MB
 
 (Reasoning: 2 bytes to a 16-bit UTF16 character. Approx. 100 chars for name, address, phone: 25 + 65 + 15.)
 
@@ -36,4 +38,11 @@
 
 (Reasoning: 4 bytes per int gives 4MB for the integers. 4 bytes per pointer for the branch nodes, assumed to be approx. half of all nodes but each to have two branches, then doubles the size. If the leaf nodes also store pointers to NULL values, this should rise to 12MB.)
 
+## How Fast?
+
+> My copy of Meyer’s Object Oriented Software Construction has about 1,200 body pages. Assuming no flow control or protocol overhead, about how long would it take to send it over an async 56k baud modem line?
+
+- 2 minutes
+
+(Reasoning: Assume 350 words per page average. 12 * 3.5 is 42. 1,200 * 350 is 420,000. In UTF-16, 840,000 bytes. 56k bits/second is 7k bytes/second. 840/7 gives 120 seconds.)
 
