@@ -23,10 +23,19 @@ use('sample_training');
 
 // Get average homework score for class 256 and assign it to a variable name
 
-var avg_homework = db.grades.aggregate([
+// To begin with, $unwind must be used rather than $project
+// to allow for application of $avg to multiple sub-document fields
+
+db.grades.aggregate([
   {
     $match: { class_id: 256 }
   },
+  {
+    $out: "class_256_grades"
+  }
+])
+
+var avg_homework = db.class_256_grades.aggregate([
   {
     $unwind: "$scores"
   },
@@ -41,14 +50,9 @@ var avg_homework = db.grades.aggregate([
   }
 ]).toArray()[0]["avg"];
 
-// console.log(`The average homework score for class 256 is ${avg_homework}.`)
-
 // For each student, calculate the average of their exam and quiz scores for class 256
 
-db.grades.aggregate([
-  {
-    $match: { class_id: 256 }
-  },
+db.class_256_grades.aggregate([
   {
     $unwind: "$scores"
   },
@@ -78,10 +82,7 @@ db.grades.aggregate([
 // Select students who have at least one homework score for class 256 which is above the average (stages 1-3 below)
 // Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average (stages 4-5 below)
 
-db.grades.aggregate([
-  {
-    $match: { class_id: 256 }
-  },
+db.class_256_grades.aggregate([
   {
     $project: {
       _id: 1,
@@ -122,4 +123,5 @@ db.grades.aggregate([
   }
 ])
 
+db.class_256_grades.drop()
 db.grades_in_person_averaged.drop()
