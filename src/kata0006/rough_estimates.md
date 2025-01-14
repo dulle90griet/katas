@@ -26,7 +26,7 @@ Available here: http://codekata.com/kata/kata03-how-big-how-fast/
 
 > My town has approximately 20,000 residences. How much space is required to store the names, addresses, and a phone number for all of these (if we store them as characters)?
 
-- 4,000,000 bytes, i.e. a bit less than 4MB
+- 4,000,000 bytes, i.e. a bit less than 4MB, if using UTF16. In UTF8, approx. 2MB.
 
 (Reasoning: 2 bytes to a 16-bit UTF16 character. Approx. 100 chars for name, address, phone: 25 + 65 + 15.)
 
@@ -42,9 +42,9 @@ Available here: http://codekata.com/kata/kata03-how-big-how-fast/
 
 > My copy of Meyer’s Object Oriented Software Construction has about 1,200 body pages. Assuming no flow control or protocol overhead, about how long would it take to send it over an async 56k baud modem line?
 
-- 2 minutes
+- ~~2 minutes~~ 14 minutes
 
-(Reasoning: Assume 350 words per page average. 12 * 3.5 is 42. 1,200 * 350 is 420,000. In UTF-16, 840,000 bytes. 56k bits/second is 7k bytes/second. 840/7 gives 120 seconds.)
+(Reasoning: Assume 350 words per page average. 12 * 3.5 is 42. 1,200 * 350 is 420,000. In UTF-16, that's 840,000 bytes. 56k bits/second is 7k bytes/second. 840/7 gives 120 seconds. _EDIT: Need also to account for word length! Say 7 chars avg per word gives 840 seconds, or 14 minutes._)
 
 > My binary search algorithm takes about 4.5mS to search a 10,000 entry array, and about 6mS to search 100,000 elements. How long would I expect it to take to search 10,000,000 elements (assuming I have sufficient memory to prevent paging).
 
@@ -56,4 +56,4 @@ Available here: http://codekata.com/kata/kata03-how-big-how-fast/
 
 - No
 
-(Reasoning: The number of possible combinations of 96 characters over 16 places is 96^16 - approximate that as 100^16, or 1E32. For any given number, n^1 + n^2 + ... + n^(x-1) is approximately equal to n^x / (n-1), so to account for passwords of 1-15 characters in length we'd add 1E32 / 99, or 1E30, giving 1.01E32 total - not a significant increase at this scale. At 1000 passwords a second, this would take 1E29 seconds, or - approximating 60 as 50, and 24 as 25 - 2E27 minutes (* 2 / 100), which is 4E25 hours (* 2 / 100), which is 16E23 or 1.6E24 days (* 4 / 100). Divide that very roughly by 300 and we're still in the realm of 0.5E21 or 5E22 years, many times longer than the Earth has existed at approx. 4.5E9 years.)
+(Reasoning: The number of possible combinations of 96 characters over 16 places is 96^16 - approximate that as 100^16, or 1E32. For any given number, n^1 + n^2 + ... + n^(x-1) is approximately equal to n^x / (n-1), so to account for passwords of 1-15 characters in length we'd add 1E32 / 99, or 1E30, giving 1.01E32 total - not in the end a significant increase at this scale and level of accuracy. At 1000 passwords a second, this would take 1E29 seconds, or - approximating 60 as 50, and 24 as 25 - 2E27 minutes (* 2 / 100), which is 4E25 hours (* 2 / 100), which is 16E23 or 1.6E24 days (* 4 / 100). Divide that very roughly by 300 and we're still in the realm of 0.5E21 or 5E22 years, many times longer than the Earth has existed at approx. 4.5E9 years.)
