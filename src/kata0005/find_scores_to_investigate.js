@@ -41,7 +41,7 @@ var avg_homework = db.grades.aggregate([
   }
 ]).toArray()[0]["avg"];
 
-console.log(`The average homework score for class 256 is ${avg_homework}.`)
+// console.log(`The average homework score for class 256 is ${avg_homework}.`)
 
 // For each student, calculate the average of their exam and quiz scores for class 256
 
@@ -66,11 +66,17 @@ db.grades.aggregate([
     }
   },
   {
+    $addFields: {
+      comp_threshold: { $multiply: [ "$avg_exam_quiz", 1.25 ] }
+    }
+  },
+  {
     $out: "grades_in_person_averaged"
   }
 ])
 
-// Select students who have at least one homework score for class 256 which is above the average
+// Select students who have at least one homework score for class 256 which is above the average (stages 1-3 below)
+// Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average (stages 4-5 below)
 
 db.grades.aggregate([
   {
@@ -92,7 +98,28 @@ db.grades.aggregate([
   },
   {
     $match: { "homework_scores.score": { $gt: avg_homework }}
+  },
+  {
+    $lookup: {
+      from: "grades_in_person_averaged",
+      localField: "student_id",
+      foreignField: "_id",
+      as: "grades_in_person"
+    }
+  },
+  {
+    $match: {
+      $expr: {
+        $gte: [
+          "$homework_scores.score",
+          "$grades_in_person.comp_threshold"
+        ]
+      }
+    }
+  },
+  {
+    $out: "class_256_scores_to_investigate"
   }
 ])
 
-// Further filter for students who have at least one homework score that is 25%+ higher than their exam-and-quiz average
+db.grades_in_person_averaged.drop()
