@@ -1,3 +1,6 @@
+import pandas as pd
+import re
+
 """ CodeKata.com Kata 04: Data Munging
 Available here: http://codekata.com/kata/kata04-data-munging/
 
@@ -6,6 +9,33 @@ Part One: Weather Data
 In weather.dat you'll find daily weather data for Morristown, NJ for June 2002. Download this text file, then write a program to output the day number (column one) with the smallest temperature spread (the maximum temperature is the second column, the minimum the third column).
 """
 
+def find_smallest_spread():
+    weather_df = pd.read_csv(
+        'src/kata0007/data/weather.dat',
+        sep=r'\s+'
+    )
+
+    weather_df["MxT"] = weather_df["MxT"] \
+        .str.replace(r"\D+", "", regex=True) \
+        .astype(int)
+    
+    weather_df["MnT"] = weather_df["MnT"] \
+        .str.replace(r"\D+", "", regex=True) \
+        .astype(int)
+    
+    weather_df["T_spread"] = weather_df["MxT"] - weather_df["MnT"]
+
+    min_spread = weather_df["T_spread"].min()
+    day = weather_df.loc[
+        weather_df["T_spread"].idxmin(),
+        "Dy"
+    ]
+
+    print(f"Day {day} saw the smallest temperature spread, at {min_spread} degrees.")
+
+
+if(__name__ == "__main__"):
+    find_smallest_spread()
 
 
 """ Part Two: Soccer League Table
