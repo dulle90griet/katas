@@ -59,6 +59,28 @@ def find_smallest_goal_difference():
 Take the two programs written previously and factor out as much common code as possible, leaving you with two smaller programs and some kind of shared functionality.
 """
 
+def return_min_diff_and_label(
+        df_to_analyse: pd.DataFrame,
+        column_a: str,
+        column_b: str,
+        label_column: str
+):
+    df_to_analyse = df_to_analyse.convert_dtypes()
+
+    df_to_analyse["comparison_column"] = abs(
+        df_to_analyse[column_a] - df_to_analyse[column_b]
+    )
+
+    min_diff = df_to_analyse["comparison_column"].min()
+    label = df_to_analyse.loc[
+        df_to_analyse["comparison_column"].idxmin(),
+        label_column
+    ]
+
+    return min_diff, label
+
+
+
 
 if(__name__ == "__main__"):
     find_smallest_spread()
