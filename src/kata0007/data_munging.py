@@ -34,6 +34,26 @@ def find_smallest_spread():
 The file football.dat contains the results from the English Premier League for 2001/2. The columns labeled 'F' and 'A' contain the total number of goals scored for and against each team in that season (so Arsenal scored 79 goals against opponents, and had 36 goals scored against them). Write a program to print the name of the team with the smallest difference in 'for' and 'against' goals."""
 
 
+def find_smallest_goal_difference():
+    football_df = pd.read_csv(
+        'src/kata0007/data/football.dat',
+        sep=r"[\s-]+"
+    )
+
+    football_df = football_df.dropna(thresh=football_df.shape[1]) \
+                    .convert_dtypes()
+    
+    football_df["goal_diff"] = abs(football_df["F"] - football_df["A"])
+
+    min_diff = football_df["goal_diff"].min()
+    team = football_df.loc[
+        football_df["goal_diff"].idxmin(),
+        "Team"
+    ]
+
+    print(f"{team} had the smallest difference ({min_diff}) between 'for' and 'against' goals.")
+
+
 """ Part Three: DRY Fusion
 
 Take the two programs written previously and factor out as much common code as possible, leaving you with two smaller programs and some kind of shared functionality.
