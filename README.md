@@ -23,7 +23,7 @@ Create a `ConnectFourGame` class that keeps track of its state, with the methods
 
 ### Kata0004 ![Bash](https://img.shields.io/badge/language-bash-orange.svg)
 
-From [TLDP](https://tldp.org/LDP/abs/html/writingscripts.html): Write a bash script that reads each line of a target file, then write the line back to stdout with an extra blank line following, effectively double-spacing the file. Check the script gets the necessary command-line argument (a filename), and whether the specified file exists. Modify the script to allow it:
+From [TLDP](https://tldp.org/LDP/abs/html/writingscripts.html): Write a bash script that reads each line of a target file, then writes the line back to stdout with an extra blank line following, effectively double-spacing the file. Check the script gets the necessary command-line argument (a filename), and whether the specified file exists. Modify the script to allow it:
 
 + to triple-space the target file, and
 + to remove all blank lines from the target file, single-spacing it.
