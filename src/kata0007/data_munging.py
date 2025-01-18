@@ -9,7 +9,7 @@ Part One: Weather Data
 In weather.dat you'll find daily weather data for Morristown, NJ for June 2002. Download this text file, then write a program to output the day number (column one) with the smallest temperature spread (the maximum temperature is the second column, the minimum the third column).
 """
 
-def find_smallest_spread():
+def find_smallest_spread_ORIGINAL():
     weather_df = pd.read_csv(
         'src/kata0007/data/weather.dat',
         sep=r"[\s*]+"
@@ -34,7 +34,7 @@ def find_smallest_spread():
 The file football.dat contains the results from the English Premier League for 2001/2. The columns labeled 'F' and 'A' contain the total number of goals scored for and against each team in that season (so Arsenal scored 79 goals against opponents, and had 36 goals scored against them). Write a program to print the name of the team with the smallest difference in 'for' and 'against' goals."""
 
 
-def find_smallest_goal_difference():
+def find_smallest_goal_difference_ORIGINAL():
     football_df = pd.read_csv(
         'src/kata0007/data/football.dat',
         sep=r"[\s-]+"
@@ -59,12 +59,7 @@ def find_smallest_goal_difference():
 Take the two programs written previously and factor out as much common code as possible, leaving you with two smaller programs and some kind of shared functionality.
 """
 
-def return_min_diff_and_label(
-        df_to_analyse: pd.DataFrame,
-        column_a: str,
-        column_b: str,
-        label_column: str
-):
+def find_min_diff_and_label(df_to_analyse, column_a, column_b, label_column):
     df_to_analyse = df_to_analyse.convert_dtypes()
 
     df_to_analyse["comparison_column"] = abs(
@@ -79,6 +74,30 @@ def return_min_diff_and_label(
 
     return min_diff, label
 
+
+def find_smallest_spread():
+    weather_df = pd.read_csv(
+        'src/kata0007/data/weather.dat',
+        sep=r"[\s*]+",
+        engine='python'
+    )
+    weather_df = weather_df[weather_df["Dy"] != "mo"]
+
+    min_spread, day = find_min_diff_and_label(weather_df, "MxT", "MnT", "Dy")
+
+    print(f"Day {day} saw the smallest temperature spread, at {min_spread} degrees.")
+
+
+def find_smallest_goal_difference():
+    football_df = pd.read_csv(
+        'src/kata0007/data/football.dat',
+        sep=r"[\s-]+",
+        engine='python'
+    ).dropna(thresh=8)
+
+    min_diff, team = find_min_diff_and_label(football_df, "F", "A", "Team")
+
+    print(f"{team} had the smallest difference ({min_diff}) between 'for' and 'against' goals.")
 
 
 
