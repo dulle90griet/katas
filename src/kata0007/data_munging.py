@@ -12,16 +12,11 @@ In weather.dat you'll find daily weather data for Morristown, NJ for June 2002. 
 def find_smallest_spread():
     weather_df = pd.read_csv(
         'src/kata0007/data/weather.dat',
-        sep=r'\s+'
+        sep=r"[\s*]+"
     )
 
-    weather_df["MxT"] = weather_df["MxT"] \
-        .str.replace(r"\D+", "", regex=True) \
-        .astype(int)
-    
-    weather_df["MnT"] = weather_df["MnT"] \
-        .str.replace(r"\D+", "", regex=True) \
-        .astype(int)
+    weather_df = weather_df[weather_df["Dy"] != "mo"] \
+                    .convert_dtypes()
     
     weather_df["T_spread"] = weather_df["MxT"] - weather_df["MnT"]
 
@@ -34,10 +29,6 @@ def find_smallest_spread():
     print(f"Day {day} saw the smallest temperature spread, at {min_spread} degrees.")
 
 
-if(__name__ == "__main__"):
-    find_smallest_spread()
-
-
 """ Part Two: Soccer League Table
 
 The file football.dat contains the results from the English Premier League for 2001/2. The columns labeled 'F' and 'A' contain the total number of goals scored for and against each team in that season (so Arsenal scored 79 goals against opponents, and had 36 goals scored against them). Write a program to print the name of the team with the smallest difference in 'for' and 'against' goals."""
@@ -47,3 +38,8 @@ The file football.dat contains the results from the English Premier League for 2
 
 Take the two programs written previously and factor out as much common code as possible, leaving you with two smaller programs and some kind of shared functionality.
 """
+
+
+if(__name__ == "__main__"):
+    find_smallest_spread()
+    find_smallest_goal_difference()
