@@ -11,7 +11,7 @@
 dest="$1"
 files=("${@:2}")
 
-for file in ${files[@]}
+for file in "${files[@]}"
 do
   rsync -az "$file" "$dest" --info=progress2 --no-i-r
   mv "$file" "${file}_TO_DELETE"
