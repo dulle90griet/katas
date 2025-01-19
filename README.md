@@ -42,3 +42,12 @@ From [CodeKata.com](http://codekata.com/kata/kata03-how-big-how-fast/): Working 
 ### Kata0007 ![Python](https://img.shields.io/badge/language-python-green.svg) ![pandas](https://img.shields.io/badge/-pandas-150458?logo=pandas&logoColor=ffffff) ![PyTest](https://img.shields.io/badge/-pytest-0A9EDC?logo=pytest&logoColor=ffffff)
 
 From [CodeKata.com](http://codekata.com/kata/kata04-data-munging/): Given the text files `weather.dat` (containing weather data for Morristown, NJ for June 2002) and `football.dat` (containing results from the English Premier Leageue for 2001/2), write a program that outputs the day number with the smallest temperature spread, then a program that outputs the name of the team with the smallest difference in 'for' and 'against' goals. Both files require cleaning. Finally, factor out as much common code as possible.
+
+### Kata0008 ![Bash](https://img.shields.io/badge/language-bash-orange.svg)
+
+Write a bash script that transfers a file to a new destination with rsync, appends '_TO_DELETE' to the original filename, and creates a symbolic link to the file's new destination. Show a progress bar, and assume names containing spaces are quoted. Modify the script to: 
+
++ take any number of filenames for transfer (as arguments $2, $3, $4, etc.),
++ work with file names containing escaped characters, and
++ ensure the symbolic link is created in the file's origin directory, not in the script's working directory.
+
