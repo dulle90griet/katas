@@ -8,6 +8,12 @@
 
 # Right now, our symbolic link only 'replaces' the file/folder in its original directory if we've run the script from that directory. Update the script so that the symbolic link will be created in the original directory regardless of where the script is run from.
 
-rsync -az "$2" "$1" --info=progress2 --no-i-r
-mv "$2" "$2_TO_DELETE"
-ln -s "$1/$2" .
+dest="$1"
+files=("${@:2}")
+
+for file in ${files[@]}
+do
+  rsync -az "$file" "$dest" --info=progress2 --no-i-r
+  mv "$file" "${file}_TO_DELETE"
+  ln -s "$dest/$file" .
+done
