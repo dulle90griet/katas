@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Write a script that takes two arguments, a destination folder/drive and a folder/file to be transferred to that destination, and uses rsync to make the transfer. After making the transfer, append '_TO_DELETE' to the original folder/file's name (allowing for human confirmation of successful transfer prior to full deletion), and in the current directory create a symbolic link to the file/folder in its new location. For now, assume that file paths containing spaces are given within quotation marks, not using escape characters.
 
@@ -8,12 +9,28 @@
 
 # Right now, our symbolic link only 'replaces' the file/folder in its original directory if we've run the script from that directory. Update the script so that the symbolic link will be created in the original directory regardless of where the script is run from.
 
-dest="$1"
-files=("${@:2}")
+DEST=$( sed -r 's/\/$//' <<< "$1" )
+FILES=("${@:2}")
 
-for file in "${files[@]}"
+for FILE in "${FILES[@]}"
 do
-  rsync -az "$file" "$dest" --info=progress2 --no-i-r
-  mv "$file" "${file}_TO_DELETE"
-  ln -s "$dest/$file" .
+  rsync -az "$FILE" "$DEST" --info=progress2 --no-i-r
+  mv "$FILE" "${FILE}_TO_DELETE"
+
+  ORIGIN="$(dirname "$FILE")"
+  if [[ $ORIGIN != "." ]]; then
+    DEPTH=$(( $( echo "$ORIGIN" | grep -o -E "[^/]+/" | wc -l ) + 1 ))
+  else
+    DEPTH=0
+  fi
+
+  PREPEND=""
+  for _ in $( seq 1 "$DEPTH" )
+  do
+    PREPEND="../${PREPEND}"
+  done
+
+  ln -s "${PREPEND}$DEST/$(basename "$FILE")" "$ORIGIN"
 done
+
+set +e
