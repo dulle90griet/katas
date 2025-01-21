@@ -9,7 +9,7 @@ set -e
 
 # Right now, our symbolic link only 'replaces' the file/folder in its original directory if we've run the script from that directory. Update the script so that the symbolic link will be created in the original directory regardless of where the script is run from.
 
-DEST=$( sed -r 's/\/$//' <<< "$1" )
+DEST="$1"
 FILES=("${@:2}")
 
 for FILE in "${FILES[@]}"
@@ -17,20 +17,9 @@ do
   rsync -az "$FILE" "$DEST" --info=progress2 --no-i-r
   mv "$FILE" "${FILE}_TO_DELETE"
 
-  ORIGIN="$(dirname "$FILE")"
-  if [[ $ORIGIN != "." ]]; then
-    DEPTH=$(( $( echo "$ORIGIN" | grep -o -E "[^/]+/" | wc -l ) + 1 ))
-  else
-    DEPTH=0
-  fi
+  ABS_DEST="$( cd "$DEST" && pwd )"
 
-  PREPEND=""
-  for _ in $( seq 1 "$DEPTH" )
-  do
-    PREPEND="../${PREPEND}"
-  done
-
-  ln -s "${PREPEND}$DEST/$(basename "$FILE")" "$ORIGIN"
+  ln -s "$ABS_DEST/$(basename "$FILE")" "$(dirname "$FILE")"
 done
 
 set +e
