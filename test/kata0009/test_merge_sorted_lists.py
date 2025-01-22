@@ -71,3 +71,9 @@ def test_merge_merges_list_with_length_0():
     list2 = []
     merge(list1, 1, list2, 0)
     assert list1 == [1]
+
+def test_merge_uses_only_n_elements_from_second_list():
+    list1 = [16, 19, 20, 22, 0, 0, 0, 0, 0]
+    list2 = [17, 18, 21, 23, 24, 25, 26, 27, 28]
+    merge(list1, 4, list2, 5)
+    assert list1 == [16, 17, 18, 19, 20, 21, 22, 23, 24]
