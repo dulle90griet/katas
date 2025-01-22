@@ -51,3 +51,6 @@ Write a bash script that transfers a file to a new destination with rsync, appen
 + work with file names containing escaped characters, and
 + ensure the symbolic link is created in the file's origin directory, not in the script's working directory.
 
+### Kata 0009 ![Python](https://img.shields.io/badge/language-python-green.svg) ![PyTest](https://img.shields.io/badge/-pytest-0A9EDC?logo=pytest&logoColor=ffffff)
+
+Given two integer lists sorted in ascending order, `nums1` and `nums2`, and two integers, `m` and `n`, representing the number of elements to be used from the beginnings of `nums1` and `nums2` respectively, merge the two lists into a single list sorted in ascending order. `nums1` is assumed to have a length of `m + n`, and the final sorted list should be produced by modifying `nums1` in place, not by returning a new list.
