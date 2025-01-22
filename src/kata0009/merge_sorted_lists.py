@@ -3,4 +3,18 @@ Given two integer lists sorted in ascending order, `nums1` and `nums2`, and two 
 """
 
 def merge(nums1, m, nums2, n):
-    pass
+    cur1 = m-1
+    cur2 = n-1
+
+    for cur3 in range(m+n-1, -1, -1):
+        if cur2 < 0:
+            break
+
+        if cur1 >= 0:
+            if nums1[cur1] > nums2[cur2]:
+                nums1[cur3] = nums1[cur1]
+                cur1 -= 1
+                continue
+        
+        nums1[cur3] = nums2[cur2]
+        cur2 -= 1
