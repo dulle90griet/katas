@@ -45,7 +45,7 @@ From [CodeKata.com](http://codekata.com/kata/kata04-data-munging/): Given the te
 
 ### Kata0008 ![Bash](https://img.shields.io/badge/language-bash-orange.svg)
 
-Write a bash script that transfers a file to a new destination with rsync, appends '_TO_DELETE' to the original filename, and creates a symbolic link to the file's new destination. Show a progress bar, and assume names containing spaces are quoted. Modify the script to: 
+Write a bash script that transfers a file to a new destination with `rsync`, appends '_TO_DELETE' to the original filename, and creates a symbolic link to the file's new destination. Show a progress bar, and assume names containing spaces are quoted. Modify the script to: 
 
 + take any number of filenames for transfer (as arguments $2, $3, $4, etc.),
 + work with file names containing escaped characters, and
@@ -61,7 +61,7 @@ Shifting pointers: Refresh your memory of CS fundamentals by completing a series
 
 1. Convert a string number in Roman numerals into an integer.
 
-2. Given a list of integers and an integer `val`, remove all occurrences of `val` from the list **in place**.
+2. Given a list of integers and an integer `val`, remove all occurrences of `val` from the list **in place**. Return the number of elements not equal to `val`.
 
 3. Given a list of integers and an integer target number, return the indices of two numbers in the list that add up to the target.
 
