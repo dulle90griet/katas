@@ -23,4 +23,4 @@ def test_indices_returned_by_two_sum_reference_numbers_summing_to_target():
 
     nums_2 = [32, 4096, 64, 2048, 128, 1024, 256, 512]
     output = two_sum(nums_2, 2304)
-    assert nums_1[output[0]] + nums_1[output[1]] == 2304
+    assert nums_2[output[0]] + nums_2[output[1]] == 2304
