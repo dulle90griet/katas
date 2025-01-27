@@ -57,7 +57,7 @@ Given two integer lists sorted in ascending order, `nums1` and `nums2`, and two 
 
 ### Kata 0010 ![Python](https://img.shields.io/badge/language-python-green.svg) ![PyTest](https://img.shields.io/badge/-pytest-0A9EDC?logo=pytest&logoColor=ffffff)
 
-Shifting pointers: Refresh your memory of CS fundamentals by completing a series of tasks involving iteration over lists or strings.
+Shifting pointers: Keep CS fundamentals fresh by completing a series of tasks involving iteration over lists or strings.
 
 1. Convert a string number in Roman numerals into an integer.
 
