@@ -1,4 +1,4 @@
-from src.kata0010.remove_element import remove_element
+from src.kata0010.pt_1_remove_element import remove_element
 
 
 def test_remove_element_modifies_list_in_place():

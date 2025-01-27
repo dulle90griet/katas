@@ -1,4 +1,4 @@
-from src.kata0010.roman_to_arabic import roman_to_arabic
+from src.kata0010.pt_2_roman_to_arabic import roman_to_arabic
 
 def test_r_to_a_returns_int():
     romans = ["I", "V", "X", "L", "C", "D", "M"]
