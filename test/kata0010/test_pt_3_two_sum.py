@@ -1,4 +1,4 @@
-from src.kata0010.pt3_two_sum import two_sum
+from kata0010.pt_3_two_sum import two_sum
 
 def test_two_sum_returns_list_of_two_ints():
     output = two_sum([1, 2, 3, 4, 5], 5)
