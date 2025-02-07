@@ -3,7 +3,7 @@ def longest_substring_len(self, s: str) -> int:
 
     j = 0
     for i in range(1, len(s)):
-        if s[i] in i[j:i]:
+        if s[i] in s[j:i]:
             j = i
             curlen = 1
             continue
