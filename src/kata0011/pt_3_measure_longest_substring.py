@@ -1,4 +1,7 @@
 def longest_substring_len(self, s: str) -> int:
+    if not s:
+        return 0
+
     maxlen = curlen = 1
 
     j = 0
