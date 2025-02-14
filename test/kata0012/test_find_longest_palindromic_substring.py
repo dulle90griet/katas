@@ -32,12 +32,12 @@ def test_returns_longest_palindrome_from_end_of_string():
     result = find_longest_palindrome("ababacdegitalatiged")
     assert result == "degitalatiged"
 
-    result = find_longest_palindrome("undertheseaamammal")
-    assert result == "mammal"
+    result = find_longest_palindrome("undertheseaamammallammam")
+    assert result == "mammallammam"
 
 
 def test_returns_longest_palindrome_from_beginning_of_string():
-    result = find_longest_palindrome("racecarracebike")
+    result = find_longest_palindrome("racecarorracebike")
     assert result == "racecar"
 
     result = find_longest_palindrome("poordanisinadroopmappatella")
