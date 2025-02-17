@@ -7,13 +7,23 @@
 
 Read line by line, this becomes "botonvsrsgaiholdcl". Write code that will make this conversion. """
 
-def convert_index(idx: int, r: int) -> tuple[int]:
+def zigzag_convert(s: str, r: int) -> str:
+    if r < 2:
+        return s
+    
     zig_length = 2 * (r - 1)
     zig_width = r - 1
-    cur_zig = idx // zig_length
-    cur_step = idx % zig_length
     
-    col = (cur_zig * zig_width) + cur_step - min(cur_step, zig_width)
-    row = cur_step - max(0, 2 * (cur_step - zig_width))
-    
-    return row, col
+    rows = [""] * r
+    for i in range(len(s)):
+        cur_step = i % zig_length
+        row = cur_step - max(0, 2 * (cur_step - zig_width))
+
+        # If we wanted to calculate column, we could do so as follows for r > 2:
+        #  cur_zig = idx // zig_length
+        #  col = (cur_zig * zig_width) + cur_step - min(cur_step, zig_width)
+        # But there is no need; row is sufficient.
+        
+        rows[row] += s[i]
+
+    return "".join(rows)
