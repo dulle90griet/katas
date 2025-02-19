@@ -12,10 +12,14 @@ def simple_regex_match(s :str, p :str) -> bool:
     ## at each index, if pattern char isn't "*" and isn't the string char, return False
     ## return True
 
-    def match_singles(sub_s :str, sub_p :str) -> bool:
+    def match_singles(
+            s_idx :int,
+            p_idx :int,
+            match_len :int
+          ) -> bool:
         """ Takes a string and a pattern of equal length """
-        for i in len(sub_p):
-            if sub_p[i] != "." and sub_p[i] != sub_s[i]:
+        for i in match_len:
+            if s[s_idx] != "." and p[p_idx] != s[s_idx]:
                 return False
         return True
 
@@ -45,20 +49,83 @@ def simple_regex_match(s :str, p :str) -> bool:
                 groups[-1][1] = p[groups[-1][2] : n]
                 groups[-1][3] = n
 
+    # NOTE: Idx 3 of each group listing is never used, and is
+    # in any case implied by start idx + subpattern length.
+    # Start idx is itself only used by the group list construction logic,
+    # and always with exclusive reference to the last group added.
+    # Both could be lost, and [-1][2] replaced with a single tracking var.
+
     # iterate over list of groups
-    ### if group type 0 (not special), check that the first `len(group)` chars of `s` match group[1]
-    ##### set the start and end indexes according to the positions in `s`, and the start index of the next group
-    ### otherwise, if group type 1, initiate special check
-    ##### set special check start to cur group no
-    ##### iterate over groups until a type-0 group is found and set special check end to the group before it
-    ##### now, iterate over `s` until the range from `idx` to `idx + len(group)` matches the type-0 group
-    ##### save its start and end indexes
-    ##### iterate over the special check groups
-    ##### for each group:
-    ######## iterate over s from the group's start index
-    ######## check that char of s matches the group
-    ######## if it doesn't, but it does match one of the remaining type 1 groups,
-    ########## note the start index and move to that group
-    ######## if it doesn't, and doesn't match any remaining type 1 group in the special check group,
-    ########## return False
-    ###### set check to normal again and move to the next group after the type 0 group
+    g, ng = 0, len(groups)
+    j, nj = 0, len(s)
+    while g < ng:
+        group_len = groups[g][3] - groups[g][2]
+
+        # if group type 0 (not special), check that the first `len(group)` chars of `s` match group[1]
+        if groups[g][0] == 0:
+            if match_singles(j, groups[g][2], group_len):
+                g += 1
+                j += group_len
+            else:
+                return False
+        # otherwise, if group type 1, initiate special check
+        else:
+            # set special check start to cur group no
+            # iterate over groups until a type-0 group is found and set special check end to the group before it
+            special_queue = [g]
+            queue_head = 0
+            while g < ng - 1 and groups[g+1][0] == 1:
+                special_queue.append(g+1)
+                g += 1
+
+            # now, iterate over `s` until the range from `idx` to `idx + len(group)` matches the type-0 group
+            # save the start and end indexes
+            special_j = j
+            group_len = groups[g][3] - groups[g][2]
+            found = False
+            while not found and j < nj - group_len + 1:
+                if match_singles(j, groups[g][2], group_len):
+                    found = True
+                else:
+                    j += 1
+            if not found:
+                return False
+            special_nj = j
+            j += group_len
+ 
+            # iterate over the special check groups
+            while queue_head < len(special_queue):
+                if special_j >= special_nj:
+                    break
+
+                special_p = groups[special_queue[queue_head]][2]
+
+                # for each group:
+                # iterate over s from the special check's start index
+                while special_j < special_nj:
+                    # check that char of s matches the group
+                    if not match_singles(special_j, special_p, 1):
+                        # if it doesn't, but it does match one of the remaining
+                        # type 1 groups, move to that group
+                        while queue_head < len(special_queue) - 1:
+                            queue_head += 1
+                            special_p = groups[special_queue[queue_head]][2]
+                            if match_singles(special_j, special_p, 1):
+                                break
+                    else:
+                        special_j += 1
+                
+
+                        
+                        
+
+
+                ########## note the start index and move to that group
+                ######## if it doesn't, and doesn't match any remaining type 1 group in the special check group,
+                ########## return False
+
+                queue_head += 1
+
+                ###### set check to normal again and move to the next group after the type 0 group
+        
+        g += 1
