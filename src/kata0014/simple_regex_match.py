@@ -3,7 +3,7 @@
 '.' matches any single character.
 '*' matches zero or more of the preceding element.
 
-The match should be complete (pattern exhausts string), not partial. """
+The match should be complete (pattern exhausts string and vice versa), not partial. """
 
 def simple_regex_match(s :str, p :str) -> bool:
 
@@ -16,10 +16,10 @@ def simple_regex_match(s :str, p :str) -> bool:
             s_idx :int,
             p_idx :int,
             match_len :int
-          ) -> bool:
+        ) -> bool:
         """ Takes a string and a pattern of equal length """
-        for i in match_len:
-            if s[s_idx] != "." and p[p_idx] != s[s_idx]:
+        for i in range(match_len):
+            if p[p_idx+i] != "." and p[p_idx+i] != s[s_idx+i]:
                 return False
         return True
 
@@ -59,12 +59,15 @@ def simple_regex_match(s :str, p :str) -> bool:
     g, ng = 0, len(groups)
     j, nj = 0, len(s)
     while g < ng:
-        group_len = groups[g][3] - groups[g][2]
+        # if the string is exhausted before the pattern, it isn't a full match
+        if j >= nj:
+            return False
 
         # if group type 0 (not special), check that the first `len(group)` chars of `s` match group[1]
         if groups[g][0] == 0:
-            if match_singles(j, groups[g][2], group_len):
-                g += 1
+            group_len = groups[g][3] - groups[g][2]
+            if group_len <= nj - j and match_singles(j, groups[g][2], group_len):
+                # g += 1
                 j += group_len
             else:
                 return False
@@ -72,54 +75,60 @@ def simple_regex_match(s :str, p :str) -> bool:
         else:
             # set special check start to cur group no
             # iterate over groups until a type-0 group is found and set special check end to the group before it
-            special_queue = [g]
+            backfill = []
             queue_head = 0
-            while g < ng - 1 and groups[g+1][0] == 1:
-                special_queue.append(g+1)
+            while g < ng and groups[g][0] == 1:
+                backfill.append(g)
                 g += 1
+            queue_len = len(backfill)
 
-            # now, iterate over `s` until the range from `idx` to `idx + len(group)` matches the type-0 group
-            # save the start and end indexes
-            special_j = j
-            group_len = groups[g][3] - groups[g][2]
-            found = False
-            while not found and j < nj - group_len + 1:
-                if match_singles(j, groups[g][2], group_len):
-                    found = True
-                else:
+            k = j
+            if g < ng:
+                # now, iterate over `s` until the range from `idx` to `idx + len(group)` matches the type-0 group
+                # save the start and end indexes
+                group_len = groups[g][3] - groups[g][2]
+                found = False
+                while j < nj - group_len + 1:
+                    if match_singles(j, groups[g][2], group_len):
+                        found = True
+                    elif found:
+                        break
                     j += 1
-            if not found:
-                return False
-            special_nj = j
-            j += group_len
- 
+                if found:
+                    j -= 1
+                else:
+                    return False
+                nk = j
+                j += group_len
+            else:
+                nk = j = nj
+
             # iterate over the special check groups
-            while queue_head < len(special_queue):
-                if special_j >= special_nj:
+            while queue_head < queue_len:
+                if k >= nk:
                     break
 
-                special_p = groups[special_queue[queue_head]][2]
+                fill_p = groups[backfill[queue_head]][2]
 
                 # for each group:
                 # iterate over s from the special check's start index
-                while special_j < special_nj:
+                while k < nk:
                     # check that char of s matches the group
-                    if not match_singles(special_j, special_p, 1):
+                    if not match_singles(k, fill_p, 1):
+                        fill_found = False
                         # if it doesn't, but it does match one of the remaining
                         # type 1 groups, move to that group
-                        while queue_head < len(special_queue) - 1:
+                        while queue_head < queue_len - 1:
                             queue_head += 1
-                            special_p = groups[special_queue[queue_head]][2]
-                            if match_singles(special_j, special_p, 1):
+                            fill_p = groups[backfill[queue_head]][2]
+                            if match_singles(k, fill_p, 1):
+                                fill_found = True
                                 break
+                        if queue_head == queue_len - 1 and not fill_found:
+                            return False
                     else:
-                        special_j += 1
+                        k += 1
                 
-
-                        
-                        
-
-
                 ########## note the start index and move to that group
                 ######## if it doesn't, and doesn't match any remaining type 1 group in the special check group,
                 ########## return False
@@ -129,3 +138,9 @@ def simple_regex_match(s :str, p :str) -> bool:
                 ###### set check to normal again and move to the next group after the type 0 group
         
         g += 1
+    
+    # if the pattern was exhausted before the string, it isn't a full match
+    if j < nj:
+        return False
+    
+    return True
