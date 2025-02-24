@@ -1,42 +1,29 @@
 """ Convert a decimal integer to Roman numerals. """
 
 def int_to_roman(num: int) -> str:
+    values = (
+        (1000, "M"), 
+        (900, "CM"), 
+        (500, "D"), 
+        (400, "CD"), 
+        (100, "C"), 
+        (90, "XC"), 
+        (50, "L"), 
+        (40, "XL"), 
+        (10, "X"), 
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I"))
+
     rom = ""
 
-    n = num // 1000
-    num = num % 1000
-    rom += "M" * n
+    for value, symbol in values:
+        if num == 0:
+            break
 
-    n = num // 100
-    num = num % 100
-    if n == 9:
-        rom += "CM"
-    elif n >= 5:
-        rom += "D" + "C" * (n - 5)
-    elif n == 4:
-        rom += "CD"
-    else:
-        rom += "C" * n
+        count = num // value
+        rom += symbol * count
+        num %= value
     
-    n = num // 10
-    num = num % 10
-    if n == 9:
-        rom += "XC"
-    elif n >= 5:
-        rom += "L" + "X" * (n - 5)
-    elif n == 4:
-        rom += "XL"
-    else:
-        rom += "X" * n
-    
-    n = num
-    if n == 9:
-        rom += "IX"
-    elif n >= 5:
-        rom += "V" + "I" * (n - 5)
-    elif n == 4:
-        rom += "IV"
-    else:
-        rom += "I" * n
-
     return rom
