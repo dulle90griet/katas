@@ -3,9 +3,17 @@ def three_sum_closest(nums: list[int], target: int) -> int:
     ans = []
     nums.sort()
 
+    if nums[0] + nums[1] + nums[2] > target:
+        return nums[0] + nums[1] + nums[2]
+    if nums[-1] + nums[-2] + nums[-3] < target:
+        return nums[-1] + nums[-2] + nums[-3]
+
     for i in range(len(nums) - 2):
         if i > 0 and nums[i] == nums[i - 1]:
             continue
+
+        if target < 0 and nums[i] > 0:
+            break
 
         left, right = i + 1, len(nums) - 1
 
