@@ -11,16 +11,13 @@ def letter_combinations(digits: str) -> list[str]:
     }
 
     def unfurl_letters(start :int = 0):
-        if len(digits) - start == 0:
+        if start >= len(digits):
             return []
         if len(digits) - start == 1:
             return letters[digits[start]]
         
-        ans = []
         unfurled = unfurl_letters(start+1)
-        for letter in letters[digits[start]]:
-            for sequence in unfurled:
-                ans.append(letter + sequence)
-        return ans
+        return [letter + sequence for sequence in unfurled
+                for letter in letters[digits[start]]]
 
     return unfurl_letters()
