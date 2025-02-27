@@ -1,38 +1,37 @@
 def four_sum(nums: list[int], target: int) -> list[list[int]]:
-    quads = []
     nums.sort()
 
-    for i in range(len(nums) - 3):
-        if i > 0 and nums[i] == nums[i - 1]:
-            continue
-        if nums[i] > 0 and nums[i] > target:
-            break
 
-        for j in range(i + 1, len(nums) - 2):
-            if j > i + 1 and nums[j] == nums[j - 1]:
+    def n_sum(target :int, n :int, start :int) -> list[list[int]]:
+        if (len(nums) - start < n
+                or target < nums[start] * n
+                or target > nums[-1] * n):
+            return []
+        if n == 2:
+            return two_sum(target, start)
+        
+        res = []
+        for i in range(start, len(nums) - n + 1):
+            if i > start and nums[i] == nums[i - 1]:
                 continue
-            if nums[j] > 0 and nums[i] + nums[j] > target:
-                break
+            
+            for seq in n_sum(target - nums[i], n - 1, i + 1):
+                res.append([nums[i]] + seq)
+        
+        return res
 
-            left, right = j + 1, len(nums) - 1
 
-            while left < right:
-                quad = [nums[i], nums[j], nums[left], nums[right]]
-                sum_quad = sum(quad)
+    def two_sum(target :int, start :int) -> list[list[int]]:
+        duos = []
+        seen = set()
 
-                if sum_quad == target:
-                    quads.append(quad)
+        for i in range(start, len(nums)):
+            if len(duos) == 0 or duos[-1][1] != nums[i]:
+                if target - nums[i] in seen:
+                    duos.append([target - nums[i], nums[i]])
+            seen.add(nums[i])
 
-                    while left < right and nums[left] == nums[left + 1]:
-                        left += 1
-                    while left < right and nums[right] == nums[right - 1]:
-                        right -= 1
-
-                    left += 1
-                    right -= 1
-                elif sum_quad < target:
-                    left += 1
-                else:
-                    right -= 1
+        return duos
     
-    return quads
+
+    return n_sum(target, 4, 0)
