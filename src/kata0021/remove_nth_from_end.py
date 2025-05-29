@@ -18,7 +18,7 @@ def remove_nth_from_end(self, head, n: int):    # where `head` is a ListNode
         head = head.next
         node_cutter = node_cutter.next
 
-    # Reroute the node under the cutter pointer to make the cut
+    # Redirect the node at the cutter pointer to make the cut
     node_cutter.next = node_cutter.next.next
 
     # Return the new head
