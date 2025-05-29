@@ -5,27 +5,21 @@
 #         self.next = next
 
 def remove_nth_from_end(self, head, n: int):    # where `head` is a ListNode
-    traversed = []
-    cur_node = head
+    head_keeper = ListNode(0, head)
+    node_cutter = head_keeper
 
-    while cur_node:
-        traversed.append(cur_node)
-        cur_node = cur_node.next
-    
-    # check n is in bounds
-    if n == 0 or n > len(traversed):
-        return head
-    # remove from len == 1 list
-    elif len(traversed) == 1:
-        head = None
-    # remove from end of list
-    elif n == 1:
-        traversed[-2].next = None
-    # remove from start of list
-    elif n == len(traversed):
+    # Advance the head pointer to establish the required space
+    # between it and the cutter
+    for _ in range(n):
         head = head.next
-    # remove from middle of list
-    else:
-        traversed[-(n+1)].next = traversed[-(n-1)]
+    
+    # Move head and cutter pointers together until head passes the list end
+    while head:
+        head = head.next
+        node_cutter = node_cutter.next
 
-    return head
+    # Reroute the node under the cutter pointer to make the cut
+    node_cutter.next = node_cutter.next.next
+
+    # Return the new head
+    return head_keeper.next
