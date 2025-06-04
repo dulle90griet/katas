@@ -4,26 +4,18 @@
 #         self.val = val
 #         self.next = next
 def swap_list_pairs(head):      # where `head` is a ListNode
-    if head is None or head.next is None:
-        return head
+    head_holder = ListNode(0, head)
+    rear = head_holder
 
-    head_keeper = ListNode(0, head)
-    rear = head_keeper
-    front = head.next
-
-    while front:
-        swap_A = rear.next
-        swap_B = front
-        swap_next = swap_B.next
+    while head and head.next:
+        swap_A = head
+        swap_B = head.next
 
         rear.next = swap_B
+        swap_A.next = swap_B.next
         swap_B.next = swap_A
-        swap_A.next = swap_next
 
-        rear = rear.next.next
-        if swap_next:
-            front = swap_next.next
-        else:
-            break
-
-    return head_keeper.next
+        rear = swap_A
+        head = swap_A.next
+    
+    return head_holder.next
