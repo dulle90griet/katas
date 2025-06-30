@@ -3,7 +3,7 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-def reverseKGroup(head, k: int):
+def reverse_k_group(head, k: int):
     if k < 2:
         return head
 
@@ -21,16 +21,18 @@ def reverseKGroup(head, k: int):
     for _ in range(cycles):
         circumference = head
         fore = head.next
+
         for __ in range(k-1):
             prev = circumference
             circumference = fore
             fore = fore.next
 
             circumference.next = prev
+
         head.next = fore
         rear.next = circumference
 
+        rear = head
         head = fore
-        rear = prev
 
     return dummy.next
