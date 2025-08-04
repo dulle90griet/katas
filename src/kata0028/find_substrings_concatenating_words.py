@@ -3,7 +3,7 @@ def find_substrings_concatenating_all_words(
     s: str,
     words: list[str]
 ) -> list[int]:
-    word_len = len(words[s])
+    word_len = len(words[0])
     substr_len = word_len * len(words)
     indexes = []
 
