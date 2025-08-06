@@ -1,22 +1,16 @@
 def longest_valid_parentheses(s: str) -> int:
-    stack = []
+    stack = [-1]
     result = 0
 
-    i = 0
-    for j, ch in enumerate(s):
+    for i, ch in enumerate(s):
         if ch == "(":
-            stack.append(j)
+            stack.append(i)
         else:
-            if not stack:
-                i = j + 1
-                continue
-            if len(stack) == 1:
-                cur_len = max(result, j - i + 1)
-            else:
-                cur_len = max(result, j - stack[-2])
             stack.pop()
 
-            if cur_len > result:
-                result = cur_len
+            if not stack:
+                stack.append(i)
+            else:
+                result = max(result, i - stack[-1])
 
     return result
