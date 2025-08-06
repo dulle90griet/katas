@@ -1,8 +1,5 @@
 def next_permutation(self, nums: list[int]) -> None:
-    if len(nums) < 2:
-        return True
-
-    i = len(nums) - 1
+    i = j = len(nums) - 1
 
     while nums[i] <= nums[i-1] and i > 0:
         i -= 1
@@ -11,16 +8,13 @@ def next_permutation(self, nums: list[int]) -> None:
 
     if pivot < 0:
         nums.reverse()
-        return True
+        return
 
-    next_num = min([num for num in nums[i:] if num > nums[pivot]], key=lambda x: x - nums[pivot])
-    for j in range(len(nums)-1, pivot, -1):
-        if nums[j] == next_num:
-            swap = j
-            break
+    while nums[j] <= nums[pivot]:
+        j -= 1
     
-    nums[swap] = nums[pivot]
+    next_num = nums[j]
+    nums[j] = nums[pivot]
     nums[pivot] = next_num
 
-    nums[i:] = reversed(nums[i:])
-    
+    nums[i:] = nums[len(nums)-1:i-1:-1]
