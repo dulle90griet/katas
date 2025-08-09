@@ -1,6 +1,7 @@
 def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
     found = -1
     l, r = 0, len(nums) - 1
+    l_stop, r_stop = l, r
 
     # find a position containing the target number
     while l <= r:
@@ -10,9 +11,9 @@ def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
             found = m
             break
         if nums[m] > target:
-            r = m - 1
+            r = r_stop = m - 1
         else:
-            l = m + 1
+            l = l_stop = m + 1
 
     if found == -1:
         return -1, -1
@@ -21,7 +22,7 @@ def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
 
     # find the leftmost matching number
     if found > 0:
-        l, r = 0, found - 1
+        l, r = l_stop, found - 1
         if nums[r] == target:
             while l < r:
                 m = (l + r) // 2
@@ -38,7 +39,7 @@ def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
         if nums[found+1] == target:
             right_bound = found+1
     elif found < len(nums) - 2:
-        l, r = found + 1, len(nums) - 1
+        l, r = found + 1, r_stop
 
         if nums[l] == target:
             while r > l:
