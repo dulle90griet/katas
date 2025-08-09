@@ -1,4 +1,7 @@
 def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
+    def ceil_div(a: int, b: int) -> int:
+        return -(-a // b)
+    
     found = -1
     l, r = 0, len(nums) - 1
     l_stop, r_stop = l, r
@@ -35,28 +38,17 @@ def find_first_and_last(nums: list[int], target: int) -> tuple[int]:
             left_bound = l
 
     # find the rightmost matching number
-    if found == len(nums) - 2:
-        if nums[found+1] == target:
-            right_bound = found+1
-    elif found < len(nums) - 2:
+    if found < len(nums) - 1:
         l, r = found + 1, r_stop
-
         if nums[l] == target:
             while r > l:
-                if nums[l] == nums[r]:
-                    l = r
-                    break
-
-                if r - l == 1 and nums[l] != nums[r]:
-                    r = l
-
-                m = (l + r) // 2
+                m = ceil_div(l + r, 2)
 
                 if nums[m] > target:
                     r = m - 1
                 else:
                     l = m
-        
-            right_bound = l
+            
+            right_bound = r
 
     return left_bound, right_bound
