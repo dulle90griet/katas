@@ -1,5 +1,5 @@
 def is_valid_sudoku(board: list[list[str]]) -> bool:
-    nums = set([str(n) for n in range(1, 10)])
+    nums = "123456789"
 
     # iterate over rows (O(n))
     for row in board:
