@@ -1,44 +1,19 @@
 def is_valid_sudoku(board: list[list[str]]) -> bool:
-    nums = "123456789"
+    row_map = [set() for _ in range(9)]
+    col_map = [set() for _ in range(9)]
+    box_map = [set() for _ in range(9)]
 
-    # iterate over rows (O(n))
-    for row in board:
-        count = {}
-        for tile in row:
-            if tile in nums:
-                count[tile] = count.get(tile, 0) + 1
-                if count[tile] > 1:
+    for y in range(len(board)):
+        for x in range(len(board[0])):
+            tile = board[y][x]
+            n = 3*(y//3)+(x//3)
+
+            if tile != ".":
+                if tile in row_map[y] or tile in col_map[x] or tile in box_map[n]:
                     return False
+                
+                row_map[y].add(tile)
+                col_map[x].add(tile)
+                box_map[n].add(tile)
         
-    # iterate over columns (O(n))
-    for col in range(len(board[0])):
-        count = {}
-        for row in board:
-            tile = row[col]
-            if tile in nums:
-                count[tile] = count.get(tile, 0) + 1
-                if count[tile] > 1:
-                    return False
-
-    # iterate over squares
-    def get_coords(n):
-        return n % 3, n // 3
-
-    for square in range(9):
-        count = {}
-        x, y = get_coords(square)
-        start_row = y * 3
-        start_col = x * 3
-
-        for subsquare in range(9):
-            x, y = get_coords(subsquare)
-            row = start_row + y
-            col = start_col + x
-
-            tile = board[row][col]
-            if tile in nums:
-                count[tile] = count.get(tile, 0) + 1
-                if count[tile] > 1:
-                    return False
-    
     return True
