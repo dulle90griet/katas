@@ -1,16 +1,15 @@
 def count_and_say(n: int) -> str:
-        s = "1"
+    s = "1"
 
-        while n > 1:
-            encoded = []
-            count = 0
-            for i in range(len(s)):
+    for _ in range(n - 1):
+        temp, count, prev = "", 0 , s[0]
+        for char in s:
+            if char == prev:
                 count += 1
-                if i == len(s) - 1 or s[i+1] != s[i]:
-                    encoded.append(f"{count}{s[i]}")
-                    count = 0
-            
-            s = "".join(encoded)
-            n -= 1
+            else:
+                temp += f"{count}{prev}"
+                prev, count = char, 1
+        temp += f"{count}{prev}"
+        s = temp
 
-        return s
+    return s
