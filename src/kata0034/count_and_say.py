@@ -8,7 +8,7 @@ def count_and_say(n: int) -> str:
             s = memo[m]
             continue
 
-        temp, count, prev = "", 0 , s[0]
+        temp, count, prev = "", 0, s[0]
         for char in s:
             if char == prev:
                 count += 1

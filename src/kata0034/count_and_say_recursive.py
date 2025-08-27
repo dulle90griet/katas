@@ -1,7 +1,11 @@
+memo = {}
+
 def count_and_say(n: int) -> str:
     def r_l_encode(n: int, s: str="1") -> str:
         if n == 1:
             return s
+        if n in memo:
+            return memo[n]
 
         result = ""
         count = 0

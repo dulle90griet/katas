@@ -1,4 +1,4 @@
-def combination_sum_2(self, candidates: list[int], target: int) -> list[list[int]]:
+def combination_sum_2(candidates: list[int], target: int) -> list[list[int]]:
     dp = [[] for _ in range(target+1)]
     dp[0] = [[]]
     seen = set()
