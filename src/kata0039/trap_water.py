@@ -1,34 +1,23 @@
 def trap_water(height: list[int]) -> int:
-    trapped, basin, left = 0, 0, 0
+    trapped = 0
+    left, right = 0, len(height) - 1
+    prev_lowest = 0
 
-    for right in range(1, len(height)):
-        if height[right] == 0:
-            continue
+    while left < right:
+        cur_lowest = min(height[left], height[right])
+        if cur_lowest > prev_lowest:
+            height_diff = cur_lowest - prev_lowest
+            width = right - (left + 1)
+            trapped += width * height_diff
+            prev_lowest = cur_lowest
 
         if height[right] >= height[left]:
-            width = right - (left + 1)
-            trapped += width * min(height[left], height[right]) - basin
-            left = right
-            basin = 0
+            left += 1
+            if trapped > 0 and right > left:
+                trapped -= min(height[left], prev_lowest)
         else:
-            basin += height[right]
-
-    if left == len(height) - 1:
-        return trapped
-
-    last_left = left
-    basin, right = 0, len(height)-1
-
-    for left in range(len(height)-2, last_left-1, -1):
-        if height[left] == 0:
-            continue
-
-        if height[left] >= height[right]:
-            width = right - (left + 1)
-            trapped += width * min(height[left], height[right]) - basin
-            right = left
-            basin = 0
-        elif right != left:
-            basin += height[left]
-
+            right -= 1
+            if trapped > 0 and right > left:
+                trapped -= min(height[right], prev_lowest)
+    
     return trapped
