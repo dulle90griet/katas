@@ -1,16 +1,17 @@
 def combination_sum(candidates: list[int], target: int) -> list[list[int]]:
-    ans, cur_combo = [], []
+    ans, path = [], []
 
-    def combination(cur_sum, cur_idx):
-        if cur_sum > target:
+    def combination(start, total):
+        if total > target:
             return
-        if cur_sum == target:
-            ans.append(cur_combo[:])
+        if total == target:
+            ans.append(path[:])
+            return
 
-        for i in range(cur_idx, len(candidates)):
-            cur_combo.append(candidates[i])
-            combination(cur_sum + candidates[i], i)
-            cur_combo.pop()
+        for i in range(start, len(candidates)):
+            path.append(candidates[i])
+            combination(i, total + candidates[i])
+            path.pop()
 
     combination(0, 0)
 
