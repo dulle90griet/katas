@@ -1,22 +1,26 @@
 def wildcard_match(s: str, p: str) -> bool:
-    if len(s) == 0:
-        return all([c == "*" for c in p])
-
-    s_traversed, p_traversed = [-1], [-1]
-
+    matches = []
 
     def dfs(s_idx, p_idx):
-        if p_traversed[-1] < len(p) - 1 and s_idx - 1 >= s_traversed[-1]:
-            s_traversed[-1] = s_idx - 1
-            p_traversed[-1] = p_idx - 1
-        if s_idx == len(s) or p_idx == len(p):
+        if bool(matches):
+            return
+
+        if p_idx >= len(p) and s_idx >= len(s):
+            matches.append(1)
+            return
+        if s_idx >= len(s):
+            if all([c == "*" for c in p[p_idx:]]):
+                matches.append(1)
+            return
+        if p_idx >= len(p):
             return
 
         match p[p_idx]:
             case "*":
-                dfs(s_idx+1, p_idx)
-                dfs(s_idx+1, p_idx+1)
-                dfs(s_idx, p_idx+1)
+                dfs(s_idx+1, p_idx+1) # Wildcard matched single char; continue to next string and pattern chars
+                dfs(s_idx+1, p_idx) # Wildcard match group continues to next string char
+                if p_idx < len(p) - 1:
+                    dfs(s_idx, p_idx+1) # Wildcard matched empty sequence; continue to next pattern char
             case "?":
                 dfs(s_idx+1, p_idx+1)
             case _:
@@ -25,7 +29,6 @@ def wildcard_match(s: str, p: str) -> bool:
                 else:
                     return
     
-
     dfs(0, 0)
 
-    return s_traversed[-1] == len(s) - 1 and (p_traversed[-1] == len(p) -1 or p_traversed[-1] == len(p) - 2 and p[-1] == "*")
+    return bool(matches)
