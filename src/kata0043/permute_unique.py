@@ -9,9 +9,11 @@ def permute_unique(nums: list[int]) -> list[list[int]]:
             if i > 0 and n == nums[i-1]:
                 continue
             
+            hold, nums[:] = n, nums[:i]+nums[i+1:]
             path.append(n)
-            backtrack(nums[:i]+nums[i+1:], path, ans)
+            backtrack(nums, path, ans)
             path.pop()
+            nums[:] = nums[:i]+[hold]+nums[i:]
     
     ans = []
     backtrack(nums, [], ans)
