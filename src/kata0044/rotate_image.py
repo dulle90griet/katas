@@ -15,7 +15,7 @@ def rotate_image(matrix: list[list[int]]) -> None:
                     # 90 degree CW transformation of 2D vector when y-axis increases downwards
                     # is (y, x) -> (x, -y)
                     mov = (mov[1], -mov[0])
-                elif m[mov] == "u" and y == c - 1:
+                elif m[mov] == "u" and y == c - i:
                     # one shift circuit completed
                     mov = (mov[1], -mov[0])
                     break
