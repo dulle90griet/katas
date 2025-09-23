@@ -1,20 +1,10 @@
-from collections import Counter
+from collections import defaultdict
 
 def group_anagrams(strs: list[str]) -> list[list[str]]:
-    if not strs:
-        return []
-    groups = [[strs[0]]]
-    counts = [Counter(strs[0])]
-
-    for i, s in enumerate(strs[1:]):
-        grouped = False
-        for j, count in enumerate(counts):
-            if count == Counter(s):
-                groups[j].append(s)
-                grouped = True
-                break
-        if not grouped:
-            counts.append(Counter(s))
-            groups.append([s])
-    
-    return groups
+    hash_map = defaultdict(list)
+    for s in strs:
+        char_count = [0] * 26
+        for c in s:
+            char_count[ord(c) - ord("a")] += 1
+        hash_map[tuple(char_count)].append(s)
+    return list(hash_map.values())
