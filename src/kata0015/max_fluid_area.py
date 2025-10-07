@@ -1,4 +1,4 @@
-""" Given an integer array, `height`, and imagining its elements graphed such that each `ith` element forms a line from `(i, 0)` to `(i, height[i])`, find the two lines that together with the x-axis form the container capable of storing the greatest quantity (2D) water. Return the quantity (area) of water stored. """
+""" Given an integer array, `height`, and imagining its elements graphed such that each `ith` element forms a line from `(i, 0)` to `(i, height[i])`, find the two lines that together with the x-axis form the container capable of storing the greatest (2D) quantity of water. Return the quantity (i.e. the area) of water stored. """
 
 def max_fluid_area(height: list[int]) -> int:
     left, right = 0, len(height) - 1
