@@ -2,13 +2,13 @@ def find_longest_palindrome(s: str) -> str:
     s_prime = "#" + "#".join(s) + "#"
     n = len(s_prime)
     prime_radii = [0] * n
-    center = radius = 0
+    center = edge = 0
 
     for i in range(n):
         mirror = center * 2 - i
 
-        if i < radius:
-            prime_radii[i] = min(radius - 1, prime_radii[mirror])
+        if i < edge:
+            prime_radii[i] = min(edge - i, prime_radii[mirror])
         
         while(i + 1 + prime_radii[i] < n
               and i - 1 - prime_radii[i] >= 0
@@ -16,9 +16,9 @@ def find_longest_palindrome(s: str) -> str:
                 == s_prime[i - 1 - prime_radii[i]]):
             prime_radii[i] += 1
 
-        if i + prime_radii[i] > radius:
+        if i + prime_radii[i] > edge:
             center = i
-            radius = i + prime_radii[i]
+            edge = i + prime_radii[i]
     
     max_length = max(prime_radii)
     center_index = prime_radii.index(max_length)
