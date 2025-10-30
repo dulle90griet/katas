@@ -17,28 +17,25 @@ def merge_k_lists(lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         merged_lists = []
 
         for i in range(0, len(lists_to_merge), 2):
-            merged_dummy = merged_head = ListNode()
+            merged_dummy = merged_tail = ListNode()
 
             list_1_head = lists_to_merge[i]
-            list_2_head = lists_to_merge[i+1] if i+1 < len(lists_to_merge) else None
+            list_2_head = lists_to_merge[i+1] if i + 1 < len(lists_to_merge) else None
 
-            while list_1_head or list_2_head:
-                if list_2_head is None:
-                    merged_head.next = ListNode(list_1_head.val)
-                    merged_head = merged_head.next
-                    list_1_head = list_1_head.next
-                elif list_1_head is None:
-                    merged_head.next = ListNode(list_2_head.val)
-                    merged_head = merged_head.next
-                    list_2_head = list_2_head.next
-                elif list_1_head.val <= list_2_head.val:
-                    merged_head.next = ListNode(list_1_head.val)
-                    merged_head = merged_head.next
+            while list_1_head and list_2_head:
+                if list_1_head.val <= list_2_head.val:
+                    merged_tail.next = ListNode(list_1_head.val)
+                    merged_tail = merged_tail.next
                     list_1_head = list_1_head.next
                 else:
-                    merged_head.next = ListNode(list_2_head.val)
-                    merged_head = merged_head.next
+                    merged_tail.next = ListNode(list_2_head.val)
+                    merged_tail = merged_tail.next
                     list_2_head = list_2_head.next
+            
+            if list_1_head:
+                merged_tail.next = list_1_head
+            elif list_2_head:
+                merged_tail.next = list_2_head
 
             merged_lists.append(merged_dummy.next)
         
