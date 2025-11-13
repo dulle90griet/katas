@@ -1,16 +1,14 @@
 def min_operations(nums: list[int]) -> int:
-    stack = []
+    stack = [0] * (len(nums) + 1)
+    top = 0
     ans = 0
 
     for num in nums:
-        while len(stack) > 0 and num < stack[-1]:
-            stack.pop()
-        
-        if len(stack) == 0 or num > stack[-1]:
-            if num == 0:
-                continue
-
-            stack.append(num)
+        while stack[top] > num:
+            top -= 1
             ans += 1
-    
-    return ans
+        if stack[top] != num:
+            top += 1
+            stack[top] = num
+
+    return ans + top
